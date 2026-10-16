@@ -1,0 +1,89 @@
+<section class="intro cinematic-bg bg-red-glow" aria-labelledby="intro-title">
+  <span class="bg-layer bg-smoke" aria-hidden="true"></span>
+  <span class="bg-layer bg-particles" aria-hidden="true"></span>
+
+  <div class="intro-topline">
+    <p class="text-meta text-muted">AK / PORTFOLIO</p>
+    <button class="btn btn--ghost intro-skip" type="button" (click)="skip()">
+      Skip intro <span aria-hidden="true">↗</span>
+    </button>
+  </div>
+
+  <div class="intro-layout">
+    <div class="intro-visual" data-intro-portrait>
+      <div
+        class="portrait portrait--hero portrait--rim intro-portrait"
+        [class.intro-portrait--unavailable]="portraitUnavailable()"
+      >
+        <img
+          [ngSrc]="assets.portrait"
+          fill
+          priority
+          sizes="(min-width: 48rem) 40vw, 60vw"
+          alt="Aditya Kirtane in black sunglasses and a white/red graphic T-shirt, head and chest crop"
+          data-intro-critical
+          (error)="portraitUnavailable.set(true)"
+        />
+      </div>
+      <span class="intro-visual-caption text-meta text-muted" aria-hidden="true"
+        >BUILD. LEARN. CREATE.</span
+      >
+    </div>
+
+    <div class="intro-copy">
+      <img
+        class="intro-logo"
+        [ngSrc]="assets.logo"
+        width="220"
+        height="180"
+        priority
+        alt=""
+        aria-hidden="true"
+        data-intro-logo
+        data-intro-critical
+      />
+      <h1
+        id="intro-title"
+        class="text-display intro-name"
+        [attr.aria-label]="portfolio.name"
+        tabindex="-1"
+      >
+        @for (word of nameWords; track word) {
+          <span class="intro-name-line"
+            ><span data-intro-word [class.text-accent]="$last">{{ word }}</span></span
+          >
+        }
+      </h1>
+      <p class="text-label intro-subtitle" data-intro-subtitle>{{ portfolio.headline }}</p>
+
+      <div class="intro-loading" data-intro-loading>
+        <progress
+          class="sr-only"
+          max="1"
+          [attr.value]="assetsReady() ? 1 : null"
+          aria-label="Introduction preparation"
+          [attr.aria-valuetext]="
+            assetsReady()
+              ? 'Image checks complete. Finishing introduction.'
+              : 'Preparing portrait and branding.'
+          "
+          aria-describedby="intro-loading-label"
+        ></progress>
+        <div class="intro-progress-track" aria-hidden="true"><span data-intro-progress></span></div>
+        <p id="intro-loading-label" class="text-meta text-muted" role="status">
+          {{
+            assetsReady()
+              ? 'Opening the portfolio experience…'
+              : 'Loading the portfolio experience…'
+          }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-footer text-meta text-muted" aria-hidden="true">
+    <span>ENGINEERING / IDEAS / PRODUCTS</span>
+    <span class="intro-footer-line"></span>
+    <span>ANGULAR / TYPESCRIPT</span>
+  </div>
+</section>

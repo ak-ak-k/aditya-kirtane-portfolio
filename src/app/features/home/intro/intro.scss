@@ -1,0 +1,201 @@
+:host {
+  display: block;
+  background: var(--color-bg);
+}
+
+.intro {
+  min-block-size: 100svh;
+  min-block-size: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-4);
+  padding: clamp(1rem, 3vw, 3rem) var(--page-padding);
+}
+
+.intro-topline,
+.intro-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.intro-topline {
+  flex-wrap: wrap;
+  min-inline-size: 0;
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+}
+
+.intro-skip {
+  color: var(--color-text-muted);
+}
+
+.intro-layout {
+  display: grid;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: var(--space-4);
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  min-inline-size: 0;
+  margin-inline: auto;
+}
+
+.intro-visual {
+  position: relative;
+  inline-size: min(60vw, 24dvh);
+  max-inline-size: 34rem;
+}
+
+.intro-portrait {
+  border-radius: var(--radius-panel);
+  mask-image: linear-gradient(var(--color-bg) 60%, transparent 100%);
+}
+
+.intro-portrait > img {
+  filter: grayscale(0.8) brightness(0.8);
+}
+
+.intro-portrait--unavailable > img {
+  opacity: 0;
+}
+
+.intro-visual-caption {
+  display: none;
+  position: absolute;
+  inset-inline-start: var(--space-5);
+  inset-block-end: 0;
+  letter-spacing: 0.12em;
+}
+
+.intro-copy {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  inline-size: 100%;
+  min-inline-size: 0;
+  text-align: center;
+}
+
+.intro-logo {
+  inline-size: clamp(4rem, 12vw, 12rem);
+  block-size: auto;
+}
+
+.intro-name {
+  position: relative;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  font-size: clamp(3rem, 7.2vw, 7rem);
+  line-height: 0.98;
+}
+
+// A visible marker replaces the large box around a programmatically focused heading.
+.intro-name:focus-visible {
+  outline: none;
+}
+
+.intro-name:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: -0.15em;
+  inset-block: 10%;
+  inline-size: 2px;
+  background: var(--color-focus);
+}
+
+.intro-name-line {
+  display: block;
+  overflow: clip;
+  padding-block: 0.03em;
+}
+
+.intro-name-line > span {
+  display: block;
+}
+
+.intro-subtitle {
+  max-inline-size: 100%;
+  text-wrap: balance;
+  letter-spacing: 0.14em;
+}
+
+.intro-loading {
+  display: grid;
+  gap: var(--space-3);
+  inline-size: 100%;
+  max-inline-size: 30rem;
+  margin-block-start: var(--space-4);
+}
+
+.intro-progress-track {
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-hover);
+  overflow: hidden;
+}
+
+.intro-progress-track > span {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  background: var(--color-accent);
+  box-shadow: var(--glow-sm);
+  transform-origin: left center;
+}
+
+.intro-footer {
+  flex-wrap: wrap;
+  max-inline-size: var(--container-max);
+  inline-size: 100%;
+  margin-inline: auto;
+  font-size: var(--font-size-label);
+  letter-spacing: 0.08em;
+}
+
+.intro-footer-line {
+  display: none;
+  flex: 1;
+  block-size: 1px;
+  background: var(--color-border);
+}
+
+@media (min-width: 48rem) {
+  .intro-layout {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(1.5rem, 4vw, 5rem);
+  }
+
+  .intro-visual {
+    inline-size: min(100%, 62dvh);
+  }
+
+  .intro-visual-caption,
+  .intro-footer-line {
+    display: block;
+  }
+
+  .intro-copy {
+    justify-items: start;
+    gap: var(--space-4);
+    text-align: start;
+  }
+}
+
+@media (max-width: 47.99rem) and (max-height: 38rem) {
+  .intro-visual {
+    inline-size: min(40vw, 18dvh);
+  }
+
+  .intro-footer {
+    display: none;
+  }
+
+  .intro-loading {
+    margin-block-start: 0;
+  }
+}

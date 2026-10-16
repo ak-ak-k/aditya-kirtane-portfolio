@@ -1,0 +1,31 @@
+.glow-subtle {
+  box-shadow: var(--glow-sm);
+}
+
+.glow-interactive:focus-visible {
+  box-shadow: var(--glow-md);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .glow-interactive:hover {
+    box-shadow: var(--glow-md);
+  }
+}
+
+.nav-glow[aria-current='page'] {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 3px;
+}
+
+.border-highlight {
+  border-color: var(--color-accent);
+}
+
+.focus-glow:focus-visible {
+  box-shadow: var(--glow-sm);
+}
+
+.content-measure {
+  max-inline-size: 62ch;
+}

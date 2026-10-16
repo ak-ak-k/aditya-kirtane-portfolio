@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700">
+<defs>
+<filter id="n" x="-30%" y="-30%" width="160%" height="160%">
+<feTurbulence type="fractalNoise" baseFrequency=".008 .022" numOctaves="4" seed="11" result="n"/>
+<feColorMatrix in="n" values="1 0 0 0 0.55  0 0 0 0 0.02  0 0 0 0 0.06  0 0 0 .7 0"/>
+<feGaussianBlur stdDeviation="12"/>
+</filter>
+<linearGradient id="fade" x1="0" x2="1"><stop stop-color="#ff2038" stop-opacity=".8"/><stop offset=".55" stop-color="#c80f28" stop-opacity=".3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+</defs>
+<rect width="1200" height="700" fill="url(#fade)" opacity=".14"/>
+<rect width="1200" height="700" filter="url(#n)" opacity=".58"/>
+</svg>

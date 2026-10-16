@@ -1,0 +1,7 @@
+@if (!state.introCompleted()) {
+  <app-intro />
+} @else if (state.selectedProfile(); as profile) {
+  <app-home-landing [profile]="profile" />
+} @else {
+  <app-explorer />
+}

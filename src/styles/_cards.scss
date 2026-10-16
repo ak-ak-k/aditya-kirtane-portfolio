@@ -1,0 +1,67 @@
+.card {
+  position: relative;
+  padding: var(--card-padding);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.card--neon {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--glow-sm);
+}
+
+.card--glass {
+  // Opaque fallback. Only this opt-in variant uses a small backdrop blur.
+  background: var(--color-bg-elevated);
+}
+
+@supports (backdrop-filter: blur(8px)) {
+  .card--glass {
+    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    backdrop-filter: blur(8px);
+  }
+}
+
+.card--interactive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-decoration: none;
+  transition:
+    border-color var(--motion-fast) var(--ease-premium),
+    background-color var(--motion-fast) var(--ease-premium),
+    transform var(--motion-fast) var(--ease-premium);
+}
+
+.card--interactive .card-link-label {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card--interactive:hover {
+    transform: translateY(-3px);
+    background: var(--color-surface-hover);
+    border-color: var(--color-accent);
+  }
+}
+
+.card--interactive:active {
+  transform: translateY(1px);
+}
+
+.card--metric {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.metric-value {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h1);
+  font-weight: 800;
+  line-height: 1;
+}

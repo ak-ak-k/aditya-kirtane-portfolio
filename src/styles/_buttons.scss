@@ -1,0 +1,82 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-block-size: var(--target-size);
+  min-inline-size: var(--target-size);
+  max-inline-size: 100%;
+  padding: 0.75rem 1.25rem;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-body-sm);
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+  transition:
+    background-color var(--motion-fast) var(--ease-premium),
+    border-color var(--motion-fast) var(--ease-premium),
+    color var(--motion-fast) var(--ease-premium),
+    transform var(--motion-fast) var(--ease-premium);
+}
+
+.btn--primary,
+.btn--connect {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  // Soft white on the brand red fails AA at this size. Use the dark foreground.
+  color: var(--color-on-accent);
+  box-shadow: var(--glow-sm);
+}
+
+.btn--secondary {
+  border-color: var(--color-accent);
+}
+
+.btn--ghost {
+  background: transparent;
+}
+
+.btn--icon {
+  flex-shrink: 0;
+  inline-size: var(--target-size);
+  padding: var(--space-2);
+  border-color: var(--color-text-muted);
+  border-radius: var(--radius-pill);
+}
+
+.btn--connect {
+  border-radius: var(--radius-pill);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:where(:not(:disabled, [aria-disabled='true'])):hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-text-muted);
+    transform: translateY(-2px);
+  }
+
+  .btn--primary:where(:not(:disabled, [aria-disabled='true'])):hover,
+  .btn--connect:where(:not(:disabled, [aria-disabled='true'])):hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+  }
+}
+
+.btn:where(:not(:disabled, [aria-disabled='true'])):active {
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}

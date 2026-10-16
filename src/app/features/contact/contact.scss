@@ -1,0 +1,131 @@
+:host {
+  display: block;
+}
+.contact-hero {
+  display: grid;
+  gap: var(--content-gap);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: var(--radius-lg);
+}
+.contact-copy {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+  min-inline-size: 0;
+}
+.contact-copy h1 {
+  position: relative;
+  padding-inline-start: var(--space-3);
+  font-size: clamp(2.75rem, 5vw, 5.25rem);
+}
+.contact-copy h1:focus-visible {
+  outline: none;
+}
+.contact-copy h1:focus-visible::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block: 10%;
+  inline-size: 2px;
+  background: var(--color-focus);
+}
+.contact-actions {
+  --cluster-gap: var(--space-3);
+}
+.contact-visual {
+  display: grid;
+  justify-items: center;
+  align-self: center;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+.contact-portrait {
+  max-inline-size: 14rem;
+}
+.contact-visual figcaption {
+  text-align: center;
+}
+.contact-information {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-7);
+}
+address {
+  font-style: normal;
+}
+.contact-cards {
+  display: grid;
+  gap: var(--card-gap);
+}
+.contact-card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+}
+.contact-card dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.contact-card dt img {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+.contact-card dd {
+  overflow-wrap: anywhere;
+}
+.contact-card a {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--target-size);
+  max-inline-size: 100%;
+}
+.contact-card a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.contact-card:has(a:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+@media (min-width: 48rem) {
+  .contact-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) {
+  .contact-hero {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    align-items: center;
+  }
+  .contact-portrait {
+    max-inline-size: 24rem;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .contact-card--interactive:hover {
+    border-color: var(--color-accent);
+  }
+}
+@media (max-width: 47.99rem) {
+  .contact-hero {
+    padding-inline: 0;
+  }
+  .contact-actions {
+    align-items: stretch;
+  }
+  .contact-actions .btn {
+    flex: 1 1 100%;
+  }
+  .contact-card {
+    padding: var(--space-4);
+  }
+}
+@media (forced-colors: active) {
+  .contact-copy h1:focus-visible::before {
+    background: Highlight;
+  }
+}

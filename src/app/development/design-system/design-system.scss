@@ -1,0 +1,123 @@
+:host {
+  display: block;
+}
+
+.preview-intro {
+  padding-block: var(--space-7) var(--section-space);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.preview-topline {
+  justify-content: space-between;
+}
+
+.preview-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.preview-brand img {
+  inline-size: 2.75rem;
+}
+
+.preview-lead {
+  max-inline-size: 46rem;
+}
+
+.preview-section {
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.preview-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+}
+
+.preview-index a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--target-size);
+}
+
+.swatch {
+  block-size: 5rem;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.palette-grid {
+  --grid-min: 12rem;
+}
+
+.type-row {
+  padding-block: var(--space-5);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.type-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-5);
+  margin-block-end: var(--space-4);
+}
+
+.type-row p {
+  overflow-wrap: anywhere;
+}
+
+.demo-message {
+  min-block-size: 3.2em;
+}
+
+.demo-card {
+  min-block-size: 15rem;
+}
+
+.demo-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  min-block-size: 12rem;
+}
+
+.demo-heading {
+  padding: var(--card-padding);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.demo-portrait {
+  --grid-min: 13rem;
+}
+
+.demo-portrait figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.demo-portrait .portrait {
+  max-inline-size: 20rem;
+}
+
+.demo-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-block-size: var(--target-size);
+}
+
+.spacing-sample {
+  block-size: var(--space-5);
+  inline-size: var(--sample-size);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+
+.preview-footer {
+  padding-block: var(--space-7);
+}

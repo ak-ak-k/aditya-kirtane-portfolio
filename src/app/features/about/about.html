@@ -1,0 +1,109 @@
+<div class="about-page">
+  <section class="about-hero cinematic-bg bg-red-glow" aria-labelledby="about-title">
+    <span class="bg-layer bg-smoke" aria-hidden="true"></span>
+    <div class="about-hero-grid">
+      <header class="about-heading" data-about-heading>
+        <p class="eyebrow">About me</p>
+        <h1 id="about-title" class="text-display white-red" tabindex="-1">
+          The <span>full story</span>
+        </h1>
+      </header>
+      <figure class="about-visual" data-about-portrait>
+        <div class="portrait portrait--hero about-portrait">
+          <img
+            [ngSrc]="assets.portrait"
+            fill
+            priority
+            sizes="(min-width: 64rem) 38vw, (min-width: 48rem) 60vw, 90vw"
+            alt="Aditya Kirtane wearing sunglasses and a white and red shirt, head-and-chest portrait"
+          />
+        </div>
+        <figcaption class="text-meta text-muted">
+          Aditya Kirtane <span aria-hidden="true">/</span> Angular Developer • Product Builder
+        </figcaption>
+      </figure>
+      <div class="about-story" data-about-story>
+        <div class="about-intro">
+          @for (paragraph of intro; track paragraph) {
+            <p class="text-body text-muted">{{ paragraph }}</p>
+          }
+        </div>
+        <ul class="cluster about-tech" aria-label="Core technologies">
+          @for (technology of tech; track technology) {
+            <li class="badge badge--tech" data-about-badge>{{ technology }}</li>
+          }
+        </ul>
+        <div class="cluster about-actions">
+          <a class="btn btn--primary" routerLink="/projects" data-cursor="project"
+            >View My Projects <span class="icon icon--arrow" aria-hidden="true"></span
+          ></a>
+          <a
+            class="btn btn--secondary"
+            [href]="assets.resume"
+            download="Aditya-Kirtane-Resume.pdf"
+            data-cursor="open"
+            ><span class="icon icon--download" aria-hidden="true"></span>Download Resume
+            <span class="sr-only">(PDF)</span></a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-stats-section" aria-labelledby="about-stats-title">
+    <h2 id="about-stats-title" class="sr-only">At a glance</h2>
+    <dl class="about-stats" data-about-reveal-group>
+      @for (stat of stats; track stat.label) {
+        <div class="about-stat" data-about-reveal>
+          <dt class="text-label text-muted">{{ stat.label }}</dt>
+          <dd class="text-heading-3">{{ stat.value }}</dd>
+          <dd class="text-body-sm text-muted">{{ stat.detail }}</dd>
+        </div>
+      }
+    </dl>
+  </section>
+
+  <section class="about-section" aria-labelledby="about-domains-title">
+    <header class="section-header">
+      <p class="eyebrow">Different contexts. Real problems.</p>
+      <h2 id="about-domains-title" class="text-heading-2 white-red">
+        <span>Domains</span> I’ve worked in
+      </h2>
+    </header>
+    <div class="grid grid--three domain-grid" data-about-reveal-group>
+      @for (domain of domains; track domain.id) {
+        <article class="card domain-card" data-about-reveal>
+          <span
+            class="icon icon--lg text-accent"
+            [style.mask-image]="'url(assets/icons/ui/' + domain.icon + '.svg)'"
+            aria-hidden="true"
+          ></span>
+          <h3 class="text-heading-4">{{ domain.title }}</h3>
+          <p class="text-body-sm text-muted">{{ domain.description }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="about-section" aria-labelledby="about-strengths-title">
+    <header class="section-header">
+      <p class="eyebrow">How I build</p>
+      <h2 id="about-strengths-title" class="text-heading-2">Core strengths</h2>
+    </header>
+    <ul class="strength-list" data-about-reveal-group>
+      @for (strength of strengths; track strength) {
+        <li class="card strength-card" data-about-reveal>
+          <span class="strength-mark" aria-hidden="true"></span>{{ strength }}
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="about-philosophy" aria-labelledby="about-philosophy-title">
+    <p class="eyebrow">Engineering mindset</p>
+    <h2 id="about-philosophy-title" class="text-heading-3">
+      Build clean. Solve real problems. Keep learning.
+    </h2>
+    <p class="text-body-lg text-muted content-measure">{{ philosophy }}</p>
+  </section>
+</div>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 180">
+<rect width="950" height="180" fill="none"/>
+<g transform="translate(0 0)">
+  <polygon points="15,150 78,20 106,20 49,150" fill="#f3f4f6"/>
+  <polygon points="62,112 130,20 161,20 101,101 173,150 137,150 86,116 68,150 38,150" fill="#ff2038"/>
+</g>
+<text x="205" y="88" font-size="52" font-family="Arial, sans-serif" font-weight="700" fill="#f3f4f6" letter-spacing="4">ADITYA</text>
+<text x="455" y="88" font-size="52" font-family="Arial, sans-serif" font-weight="700" fill="#ff2038" letter-spacing="4">KIRTANE</text>
+<text x="205" y="132" font-size="20" font-family="Arial, sans-serif" fill="#a1a1aa" letter-spacing="7">ANGULAR DEVELOPER • PRODUCT BUILDER</text>
+</svg>

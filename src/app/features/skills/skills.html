@@ -1,0 +1,76 @@
+<section class="skills-hero cinematic-bg" aria-labelledby="skills-title">
+  <div class="skill-orbits" aria-hidden="true">
+    <span class="orbit orbit--outer"></span><span class="orbit orbit--inner"></span>
+    <span class="orbit-core"></span><span class="orbit-node"></span>
+  </div>
+  <div class="section-header" data-skills-heading>
+    <p class="eyebrow">My capabilities</p>
+    <h1 id="skills-title" class="text-display white-red" tabindex="-1">
+      My skill <span>universe</span>
+    </h1>
+    <p class="text-body-lg text-muted content-measure">{{ intro }}</p>
+    <p class="text-meta text-muted skills-identity">
+      Angular Developer <span aria-hidden="true">·</span> Product Builder
+    </p>
+  </div>
+</section>
+
+<div class="skills-grid">
+  @for (category of categories; track category.id) {
+    <section
+      class="card skill-category"
+      [class.skill-category--featured]="category.id === 'frontend'"
+      [attr.data-skill-category]="category.id"
+      [attr.aria-labelledby]="category.id + '-title'"
+    >
+      <header class="category-header">
+        <span class="category-icon" aria-hidden="true"
+          ><img [ngSrc]="category.icon" width="28" height="28" alt=""
+        /></span>
+        <h2 class="text-heading-3" [id]="category.id + '-title'">{{ category.title }}</h2>
+      </header>
+      <p class="text-body-sm text-muted category-description">{{ category.description }}</p>
+      <div class="category-content" data-skills-group>
+        <ul class="skill-list" role="list" [attr.aria-label]="category.title + ' skills'">
+          @for (skill of category.skills; track skill.name) {
+            <li
+              [class.skill-feature]="skill.emphasis === 'primary'"
+              [class.badge]="skill.emphasis !== 'primary'"
+              [class.badge--tech]="skill.emphasis !== 'primary'"
+            >
+              @if (skill.emphasis === 'primary') {
+                <p class="text-label text-accent">Core specialization</p>
+                <h3 class="text-heading-1">{{ skill.name }}</h3>
+                <p class="text-body text-muted">{{ skill.description }}</p>
+              } @else {
+                <span>{{ skill.name }}</span>
+                @if (skill.description) {
+                  <span class="skill-context text-meta text-muted">{{ skill.description }}</span>
+                }
+              }
+            </li>
+          }
+        </ul>
+        @if (category.id === 'frontend') {
+          <div class="angular-foundations">
+            <h3 class="text-label text-muted">In practice</h3>
+            <ul
+              class="angular-topics text-body-sm"
+              role="list"
+              aria-label="Angular engineering topics"
+            >
+              @for (topic of angularTopics; track topic.name) {
+                <li>{{ topic.name }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>
+
+<p class="skills-summary text-body-lg text-muted content-measure">
+  My strongest focus is Angular frontend engineering, supported by mobile, backend, real-time, and
+  delivery experience.
+</p>

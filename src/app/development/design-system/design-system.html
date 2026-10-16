@@ -1,0 +1,386 @@
+<div class="preview-intro stack">
+  <div class="cluster preview-topline">
+    <div class="preview-brand">
+      <img ngSrc="assets/branding/ak-logo-mark.svg" width="220" height="180" alt="AK" />
+      <span class="text-meta text-muted">{{ portfolio.name }} / Interface language</span>
+    </div>
+    <span class="badge badge--accent">Development preview · 02</span>
+  </div>
+
+  <p class="eyebrow">Cinematic restraint. Engineering clarity.</p>
+  <h1 class="text-display-xl white-red" tabindex="-1">Design <span>system.</span></h1>
+  <p class="text-body-lg text-muted preview-lead">
+    A visual language for {{ portfolio.headline }}. Near-black surfaces, deliberate red accents, and
+    confident type. Built to support the work, with room for a cinematic edge.
+  </p>
+  <div class="cluster">
+    <span class="badge">70% clean interface</span>
+    <span class="badge">30% cinematic treatment</span>
+    <span class="status status--success">Primitives preview</span>
+  </div>
+  <nav class="preview-index text-body-sm" aria-label="Design system sections">
+    <a href="#colors">01 Colors</a>
+    <a href="#typography">02 Typography</a>
+    <a href="#controls">03 Controls</a>
+    <a href="#cards">04 Cards</a>
+    <a href="#headings">05 Headings</a>
+    <a href="#backgrounds">06 Backgrounds</a>
+    <a href="#portraits">07 Images</a>
+    <a href="#icons">08 Icons</a>
+    <a href="#layout">09 Layout &amp; focus</a>
+  </nav>
+  <p class="text-meta text-muted">
+    Local development only. This guide is excluded from the production portfolio.
+  </p>
+</div>
+
+<section id="colors" class="section preview-section" aria-labelledby="colors-title">
+  <header class="section-header">
+    <p class="eyebrow">01 / Palette</p>
+    <h2 id="colors-title">Dark by default. Red with intent.</h2>
+    <p class="text-muted">
+      Semantic roles map to the supplied brand tokens. Glow is an accent, not a surface.
+    </p>
+  </header>
+  <div class="grid palette-grid">
+    @for (color of colors; track color.token) {
+      <div class="stack">
+        <div
+          class="swatch"
+          [style.background-color]="'var(' + color.token + ')'"
+          aria-hidden="true"
+        ></div>
+        <div>
+          <h3 class="text-body">{{ color.name }}</h3>
+          <p class="text-meta text-muted">{{ color.value }}</p>
+          <code class="text-muted">{{ color.token }}</code>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<section id="typography" class="section preview-section" aria-labelledby="typography-title">
+  <header class="section-header">
+    <p class="eyebrow">02 / Typography</p>
+    <h2 id="typography-title">Big ideas. Clear hierarchy.</h2>
+    <p class="text-muted">
+      Responsive sizes, condensed system display type, and a calm UI stack. No remote fonts or font
+      downloads.
+    </p>
+  </header>
+  @for (type of typeScale; track type.className) {
+    <div class="type-row">
+      <div class="type-meta text-meta text-muted">
+        <span>{{ type.name }}</span>
+        <code>.{{ type.className }}</code>
+        <span>{{ type.range }}</span>
+      </div>
+      <p [class]="type.className">{{ type.sample }}</p>
+    </div>
+  }
+</section>
+
+<section id="controls" class="section preview-section" aria-labelledby="controls-title">
+  <header class="section-header">
+    <p class="eyebrow">03 / Controls</p>
+    <h2 id="controls-title">Every interaction, considered.</h2>
+    <p class="text-muted">
+      A minimum 44 px touch target, clear keyboard focus, native disabled behavior, and restrained
+      CSS hover states.
+    </p>
+  </header>
+  <div class="stack">
+    <div class="cluster">
+      <button class="btn btn--primary" type="button" (click)="previewAction('Primary button')">
+        Primary action <span class="icon icon--arrow" aria-hidden="true"></span>
+      </button>
+      <button class="btn btn--secondary" type="button" (click)="previewAction('Secondary button')">
+        Secondary action
+      </button>
+      <button class="btn btn--ghost" type="button" (click)="previewAction('Ghost button')">
+        Explore more
+      </button>
+      <button
+        class="btn btn--icon"
+        type="button"
+        aria-label="Preview email action"
+        (click)="previewAction('Icon button')"
+      >
+        <span class="icon icon--mail" aria-hidden="true"></span>
+      </button>
+      <button class="btn btn--connect" type="button" (click)="previewAction('Navigation CTA')">
+        Let's connect <span class="icon icon--arrow" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="cluster">
+      <button class="btn btn--primary" type="button" disabled>Disabled primary</button>
+      <button class="btn btn--secondary" type="button" disabled>Disabled secondary</button>
+      <button class="btn btn--ghost" type="button" disabled>Disabled ghost</button>
+      <button class="btn btn--icon" type="button" disabled aria-label="Disabled email action">
+        <span class="icon icon--mail" aria-hidden="true"></span>
+      </button>
+    </div>
+    <p class="text-body-sm text-muted demo-message" role="status">{{ actionMessage() }}</p>
+    <h3 class="text-heading-4">Compact, never crowded.</h3>
+    <div class="cluster" aria-label="Technology badges">
+      @for (technology of technologies; track technology) {
+        <span class="badge badge--tech">{{ technology }}</span>
+      }
+      <span class="badge">Product tag</span>
+      <span class="badge badge--accent">Featured</span>
+      <span class="status status--success">Ready to review</span>
+      <span class="text-meta text-muted">Metadata · 2026</span>
+    </div>
+    <div class="cluster" role="group" aria-label="Sample category filter">
+      @for (category of categories; track category) {
+        <button
+          class="chip"
+          type="button"
+          [attr.aria-pressed]="selectedCategory() === category"
+          (click)="selectedCategory.set(category)"
+        >
+          {{ category }}
+        </button>
+      }
+      <button class="chip" type="button" disabled>Unavailable</button>
+    </div>
+    <p class="text-body-sm text-muted">Selected sample category: {{ selectedCategory() }}</p>
+  </div>
+</section>
+
+<section id="cards" class="section preview-section" aria-labelledby="cards-title">
+  <header class="section-header">
+    <p class="eyebrow">04 / Surfaces</p>
+    <h2 id="cards-title">Structure before spectacle.</h2>
+    <p class="text-muted">Five reusable treatments. Give the content the strongest voice.</p>
+  </header>
+  <div class="grid grid--three">
+    <article class="card stack demo-card">
+      <p class="text-meta text-muted">01 / Standard</p>
+      <h3 class="text-heading-3">Quiet confidence.</h3>
+      <p class="text-muted">An opaque dark surface, a soft border, and comfortable spacing.</p>
+      <code class="text-muted">.card</code>
+    </article>
+    <article class="card card--neon stack demo-card">
+      <p class="text-meta text-muted">02 / Highlight</p>
+      <h3 class="text-heading-3">A deliberate accent.</h3>
+      <p class="text-muted">A subtle red border and small glow for content that needs emphasis.</p>
+      <code class="text-muted">.card.card--neon</code>
+    </article>
+    <div class="cinematic-bg">
+      <span class="bg-layer bg-grid" aria-hidden="true"></span>
+      <article class="card card--glass stack demo-card">
+        <p class="text-meta text-muted">03 / Glass</p>
+        <h3 class="text-heading-3">A little depth.</h3>
+        <p class="text-muted">One opt-in 8 px blur with a readable opaque fallback.</p>
+        <code class="text-muted">.card.card--glass</code>
+      </article>
+    </div>
+    <a class="card card--interactive demo-card" href="#typography">
+      <p class="text-meta text-muted">04 / Interactive</p>
+      <h3 class="text-heading-3">Explore the type.</h3>
+      <p class="text-muted">
+        One link, one clear destination. Hover lift is disabled for reduced motion.
+      </p>
+      <span class="cluster card-link-label"
+        >View typography <span class="icon icon--arrow" aria-hidden="true"></span
+      ></span>
+    </a>
+    <article class="card card--metric demo-card">
+      <p class="text-meta text-muted">05 / Metric</p>
+      <h3 class="metric-value">05<span class="text-accent">.</span></h3>
+      <p>Card variants</p>
+      <p class="text-body-sm text-muted">
+        A sample count for this design system, not a portfolio statistic.
+      </p>
+      <code class="text-muted">.card.card--metric</code>
+    </article>
+  </div>
+</section>
+
+<section id="headings" class="section preview-section" aria-labelledby="headings-title">
+  <header class="section-header">
+    <p class="eyebrow">05 / Headline language</p>
+    <h2 id="headings-title">Cinematic, with control.</h2>
+    <p class="text-muted">
+      A handful of accents for future titles. These are type specimens, not feature screens.
+    </p>
+  </header>
+  <div class="stack">
+    <div class="demo-heading stack">
+      <p class="eyebrow">About me</p>
+      <p class="text-display white-red">The full <span>story</span></p>
+      <code class="text-muted">.white-red</code>
+    </div>
+    <div class="demo-heading stack">
+      <p class="eyebrow eyebrow--dot">Experience</p>
+      <p class="text-display red-accent">Top moments</p>
+      <code class="text-muted">.red-accent</code>
+    </div>
+    <div class="demo-heading stack">
+      <p class="eyebrow">My capabilities</p>
+      <p class="text-display">My skill <span class="brush-accent">universe</span></p>
+      <code class="text-muted">.brush-accent</code>
+    </div>
+    <div class="demo-heading cinematic-bg stack">
+      <span class="outline-background-word" aria-hidden="true">Originals</span>
+      <p class="eyebrow">Featured builds</p>
+      <p class="text-display white-red">AK <span>originals</span></p>
+      <code class="text-muted">.outline-background-word</code>
+    </div>
+    <div class="demo-heading stack">
+      <p class="eyebrow">Contact</p>
+      <p class="text-display white-red">Let's build something <span>great.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="backgrounds" class="section preview-section" aria-labelledby="backgrounds-title">
+  <header class="section-header">
+    <p class="eyebrow">06 / Atmosphere</p>
+    <h2 id="backgrounds-title">A cinematic edge. In small doses.</h2>
+    <p class="text-muted">
+      Static, decorative layers. Shown separately to keep the effect budget visible.
+    </p>
+  </header>
+  <div class="grid">
+    @for (background of backgrounds; track background.className) {
+      <article class="card cinematic-bg demo-background">
+        <span class="bg-layer" [class]="background.className" aria-hidden="true"></span>
+        <h3 class="text-heading-4">{{ background.name }}</h3>
+        <code class="text-muted">{{ background.token }}</code>
+      </article>
+    }
+  </div>
+</section>
+
+<section id="portraits" class="section preview-section" aria-labelledby="portraits-title">
+  <header class="section-header">
+    <p class="eyebrow">07 / Image treatment</p>
+    <h2 id="portraits-title">The same image. A controlled treatment.</h2>
+    <p class="text-muted">
+      Small utility samples using the supplied head-and-chest crop. Source files stay untouched.
+    </p>
+  </header>
+  <div class="grid demo-portrait">
+    @for (portrait of portraits; track portrait.name) {
+      <figure>
+        <div class="portrait" [class]="portrait.className">
+          <img
+            ngSrc="assets/images/aditya/portrait-headshot.webp"
+            fill
+            sizes="(max-width: 47.99rem) calc(100vw - 2rem), (max-width: 71.99rem) 30vw, 20vw"
+            alt="Aditya Kirtane wearing black sunglasses and a white/red graphic T-shirt, cropped to head and chest"
+          />
+        </div>
+        <figcaption>
+          <span class="text-body-sm">{{ portrait.name }}</span>
+          <br />
+          <code class="text-muted">{{ portrait.token }}</code>
+        </figcaption>
+      </figure>
+    }
+  </div>
+</section>
+
+<section id="icons" class="section preview-section" aria-labelledby="icons-title">
+  <header class="section-header">
+    <p class="eyebrow">08 / Technical details</p>
+    <h2 id="icons-title">One visual weight. Four sizes.</h2>
+    <p class="text-muted">
+      Supplied SVGs used as masks so they inherit currentColor. No icon package.
+    </p>
+  </header>
+  <div class="grid grid--two">
+    <div class="card stack">
+      @for (icon of iconSizes; track icon.name) {
+        <div class="demo-icon">
+          <span
+            class="icon icon--code text-accent"
+            [class]="icon.className"
+            aria-hidden="true"
+          ></span>
+          <span
+            >{{ icon.name }} <span class="text-meta text-muted">/ {{ icon.size }}</span></span
+          >
+        </div>
+      }
+    </div>
+    <div class="card stack">
+      <h3 class="text-heading-4">An icon supports a label.</h3>
+      <div class="cluster text-accent" aria-hidden="true">
+        <span class="icon icon--code"></span>
+        <span class="icon icon--arrow"></span>
+        <span class="icon icon--mail"></span>
+        <span class="icon icon--github"></span>
+        <span class="icon icon--external"></span>
+        <span class="icon icon--download"></span>
+      </div>
+      <p class="text-muted">
+        Icon-only controls need an accessible name; decorative spans use aria-hidden.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="layout" class="section preview-section" aria-labelledby="layout-title">
+  <header class="section-header">
+    <p class="eyebrow">09 / Rhythm &amp; accessibility</p>
+    <h2 id="layout-title">Space to breathe. Room to focus.</h2>
+    <p class="text-muted">
+      A 1440 px content ceiling, fluid page gutters, responsive grids, and focus rings that stay
+      visible.
+    </p>
+  </header>
+  <div class="grid grid--two">
+    <div class="card stack">
+      <h3 class="text-heading-4">A consistent spacing rhythm.</h3>
+      <div class="cluster">
+        <div class="spacing-sample" style="--sample-size: var(--space-2)" aria-hidden="true"></div>
+        <code>--space-2 / 8 px</code>
+      </div>
+      <div class="cluster">
+        <div class="spacing-sample" style="--sample-size: var(--space-4)" aria-hidden="true"></div>
+        <code>--space-4 / 16 px</code>
+      </div>
+      <div class="cluster">
+        <div class="spacing-sample" style="--sample-size: var(--space-6)" aria-hidden="true"></div>
+        <code>--space-6 / 32 px</code>
+      </div>
+      <div class="cluster">
+        <div class="spacing-sample" style="--sample-size: var(--space-8)" aria-hidden="true"></div>
+        <code>--space-8 / 64 px</code>
+      </div>
+      <p class="text-body-sm text-muted">
+        Layout primitives: .page-container, .section, .section-header, .stack, .cluster, .grid.
+      </p>
+    </div>
+    <div class="card stack">
+      <h3 class="text-heading-4">Try the keyboard.</h3>
+      <p class="text-muted">
+        Use Tab to focus this button. The red outline has a dark separator; hover is optional.
+      </p>
+      <div>
+        <button
+          class="btn btn--secondary focus-glow"
+          type="button"
+          (click)="previewAction('Focus sample')"
+        >
+          Focus sample
+        </button>
+      </div>
+      <p class="text-body-sm text-muted">
+        Selected chips have a check mark and aria-pressed. Status always includes a label.
+      </p>
+      <p class="text-body-sm text-muted">
+        Enable reduced motion to remove hover lift and smooth scrolling.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="preview-footer cluster text-meta text-muted">
+  <span>AK / Visual language v0.2</span>
+  <span>Step 2 only. Portfolio experiences follow in later steps.</span>
+</footer>

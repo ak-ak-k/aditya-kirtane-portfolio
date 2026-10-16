@@ -27,14 +27,53 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets/"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/assets/tokens/design-tokens.css", "src/styles.scss"]
           },
           "configurations": {
             "production": {
+              "assets": [
+                { "glob": "**/*", "input": "public", "ignore": ["favicon.ico"] },
+                {
+                  "glob": "{ak-logo-mark,favicon}.svg",
+                  "input": "src/assets/branding",
+                  "output": "/assets/branding/"
+                },
+                {
+                  "glob": "portrait-headshot.webp",
+                  "input": "src/assets/images/aditya",
+                  "output": "/assets/images/aditya/"
+                },
+                {
+                  "glob": "*.svg",
+                  "ignore": ["home.svg"],
+                  "input": "src/assets/icons/ui",
+                  "output": "/assets/icons/ui/"
+                },
+                { "glob": "**/*", "input": "src/assets/projects", "output": "/assets/projects/" },
+                {
+                  "glob": "*",
+                  "ignore": ["red-glow.svg"],
+                  "input": "src/assets/textures",
+                  "output": "/assets/textures/"
+                },
+                {
+                  "glob": "section-dark.svg",
+                  "input": "src/assets/backgrounds",
+                  "output": "/assets/backgrounds/"
+                },
+                {
+                  "glob": "aditya-kirtane-resume.pdf",
+                  "input": "src/assets/resume",
+                  "output": "/assets/resume/"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -50,6 +89,12 @@
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/development/development.routes.ts",
+                  "with": "src/app/development/development.routes.dev.ts"
+                }
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true

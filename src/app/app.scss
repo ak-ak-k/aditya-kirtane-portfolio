@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.shell-content {
+  width: min(var(--container-max), calc(100% - 2 * var(--page-padding)));
+  margin-inline: auto;
+}
+
+.shell-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 40;
+}
+
+.shell-content {
+  padding-block: var(--space-6);
+}
+
+.shell-content--intro,
+.shell-content--explorer,
+.shell-content--home {
+  width: 100%;
+  padding: 0;
+}

@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/tokens';
+@use './styles/reset';
+@use './styles/typography';
+@use './styles/layout';
+@use './styles/buttons';
+@use './styles/cards';
+@use './styles/badges';
+@use './styles/headings';
+@use './styles/backgrounds';
+@use './styles/images';
+@use './styles/icons';
+@use './styles/utilities';
+@use './styles/accessibility';

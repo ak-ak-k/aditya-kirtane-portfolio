@@ -1,0 +1,145 @@
+@if (detail(); as view) {
+  <a class="back-link text-body-sm" routerLink="/projects">← Back to AK Originals</a>
+  <header class="case-hero" data-case-heading>
+    <div class="case-intro stack">
+      <p class="eyebrow">Project / Case study</p>
+      <p class="text-meta text-muted">{{ view.summary.type }} · {{ view.summary.category }}</p>
+      <h1 class="text-display" tabindex="-1">{{ view.summary.name }}</h1>
+      <p class="text-body-lg text-muted content-measure">{{ view.summary.shortDescription }}</p>
+      @if (view.summary.technologies.length) {
+        <ul class="cluster case-tags" role="list" aria-label="Primary technologies">
+          @for (tech of view.summary.technologies; track tech) {
+            <li class="badge badge--tech">{{ tech }}</li>
+          }
+        </ul>
+      }
+      @if (view.study.links?.length) {
+        <div class="cluster">
+          @for (link of view.study.links; track link.url) {
+            <a
+              class="btn btn--secondary"
+              [href]="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="open"
+            >
+              {{ link.label }} <span class="icon icon--external" aria-hidden="true"></span
+              ><span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          }
+        </div>
+      }
+    </div>
+    <figure class="case-visual">
+      <div
+        class="case-artwork"
+        [class.case-artwork--identity]="view.summary.type === 'Portfolio entry'"
+      >
+        <img
+          [ngSrc]="view.summary.coverAsset"
+          width="1600"
+          height="900"
+          [alt]="view.summary.name + ' project cover artwork'"
+          priority
+        />
+      </div>
+      <figcaption class="text-meta text-muted">Project artwork</figcaption>
+    </figure>
+  </header>
+
+  <section class="case-section" data-case-section aria-labelledby="overview-title">
+    <p class="eyebrow">The product</p>
+    <h2 id="overview-title" class="text-heading-2">Overview</h2>
+    <p class="text-body-lg text-muted content-measure">{{ view.study.overview }}</p>
+  </section>
+
+  @if (view.study.role?.length) {
+    <section class="case-section" data-case-section aria-labelledby="role-title">
+      <p class="eyebrow">Contribution</p>
+      <h2 id="role-title" class="text-heading-2">My role</h2>
+      <ul class="case-role text-body content-measure">
+        @for (role of view.study.role; track role) {
+          <li>{{ role }}</li>
+        }
+      </ul>
+    </section>
+  }
+  @if (view.study.features?.length) {
+    <section class="case-section" data-case-section aria-labelledby="features-title">
+      <p class="eyebrow">What it does</p>
+      <h2 id="features-title" class="text-heading-2">Key features</h2>
+      <div class="case-grid">
+        @for (feature of view.study.features; track feature.title) {
+          <article class="card case-point">
+            <span class="icon icon--code text-accent" aria-hidden="true"></span>
+            <h3 class="text-heading-4">{{ feature.title }}</h3>
+            <p class="text-body-sm text-muted">{{ feature.description }}</p>
+          </article>
+        }
+      </div>
+    </section>
+  }
+  @if (view.study.engineering?.length) {
+    <section class="case-section" data-case-section aria-labelledby="engineering-title">
+      <p class="eyebrow">How it was built</p>
+      <h2 id="engineering-title" class="text-heading-2">Engineering highlights</h2>
+      <div class="case-grid">
+        @for (point of view.study.engineering; track point.title) {
+          <article class="engineering-point">
+            <h3 class="text-heading-4">{{ point.title }}</h3>
+            <p class="text-body text-muted">{{ point.description }}</p>
+          </article>
+        }
+      </div>
+    </section>
+  }
+  @if (view.study.architecture?.length) {
+    <section class="case-section" data-case-section aria-labelledby="architecture-title">
+      <p class="eyebrow">System map</p>
+      <h2 id="architecture-title" class="text-heading-2">System components</h2>
+      <ul class="architecture-map" role="list" aria-label="Documented system components">
+        @for (node of view.study.architecture; track node.title) {
+          <li class="card">
+            <h3 class="text-heading-4">{{ node.title }}</h3>
+            <p class="text-meta text-muted">{{ node.description }}</p>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+  @if (view.study.outcome; as outcome) {
+    <section class="case-section" data-case-section aria-labelledby="outcome-title">
+      <p class="eyebrow">The result</p>
+      <h2 id="outcome-title" class="text-heading-2">Outcome</h2>
+      <p class="text-body-lg text-muted content-measure">{{ outcome }}</p>
+      @if (view.study.metric; as metric) {
+        <dl class="card case-metric">
+          <dt class="text-body text-muted">{{ metric.description }}</dt>
+          <dd class="text-heading-1 text-accent">{{ metric.title }}</dd>
+        </dl>
+      }
+    </section>
+  }
+  <nav class="case-navigation" aria-label="Project navigation" data-case-section>
+    @if (view.previous; as previous) {
+      <a class="card case-neighbor" [routerLink]="previous.detailRoute" data-cursor="project"
+        ><span class="text-meta text-muted">← Previous project</span
+        ><span class="text-heading-3">{{ previous.name }}</span></a
+      >
+    }
+    @if (view.next; as next) {
+      <a class="card case-neighbor" [routerLink]="next.detailRoute" data-cursor="project"
+        ><span class="text-meta text-muted">Next project →</span
+        ><span class="text-heading-3">{{ next.name }}</span></a
+      >
+    }
+  </nav>
+} @else {
+  <section class="stack">
+    <h1 class="text-heading-1" tabindex="-1">Project not found</h1>
+    <p class="text-body text-muted">
+      The project you’re looking for isn’t in the current showcase.
+    </p>
+    <p><a class="btn btn--secondary" routerLink="/projects">Back to Projects</a></p>
+  </section>
+}

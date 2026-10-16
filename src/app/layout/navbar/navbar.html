@@ -1,0 +1,38 @@
+<div class="navbar page-container">
+  <a class="brand" routerLink="/" aria-label="Aditya Kirtane — Home">
+    <img ngSrc="assets/branding/ak-logo-mark.svg" width="220" height="180" alt="" />
+    <span>{{ portfolio.name }}</span>
+  </a>
+  <button
+    #menuToggle
+    type="button"
+    class="btn btn--ghost menu-toggle"
+    aria-controls="primary-navigation"
+    [attr.aria-expanded]="state.menuOpen()"
+    (click)="state.toggleMenu()"
+  >
+    <span class="menu-symbol" [class.is-open]="state.menuOpen()" aria-hidden="true"
+      ><span></span><span></span
+    ></span>
+    {{ state.menuOpen() ? 'Close menu' : 'Menu' }}
+  </button>
+  <nav id="primary-navigation" aria-label="Primary" [class.is-open]="state.menuOpen()">
+    <ul>
+      @for (item of navigation; track item.id) {
+        <li>
+          <a
+            class="nav-link"
+            [routerLink]="'/' + item.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.id === 'home' }"
+            ariaCurrentWhenActive="page"
+            >{{ item.label }}</a
+          >
+        </li>
+      }
+    </ul>
+    <a class="btn btn--connect" routerLink="/contact"
+      >Let’s Connect <span class="icon icon--arrow" aria-hidden="true"></span
+    ></a>
+  </nav>
+</div>

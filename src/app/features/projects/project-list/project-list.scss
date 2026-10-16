@@ -1,0 +1,202 @@
+:host {
+  display: block;
+}
+.projects-hero {
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border-radius: var(--radius-lg);
+}
+.projects-hero .section-header {
+  margin-block-end: 0;
+}
+.projects-hero h1 {
+  position: relative;
+  padding-inline-start: var(--space-3);
+  font-size: clamp(2.75rem, 6vw, 6rem);
+}
+.projects-hero h1:focus-visible {
+  outline: none;
+}
+.projects-hero h1:focus-visible::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block: 10%;
+  inline-size: 2px;
+  background: var(--color-focus);
+}
+.projects-count {
+  margin-block-start: var(--space-5);
+}
+.artwork-note {
+  margin-block: var(--space-6) var(--space-4);
+}
+.project-grid {
+  display: grid;
+  gap: var(--card-gap);
+}
+.project-entry {
+  min-inline-size: 0;
+}
+.project-card {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  padding: 0;
+  text-decoration: none;
+  overflow: clip;
+  transition:
+    transform var(--motion-fast) var(--ease-premium),
+    border-color var(--motion-fast) var(--ease-premium);
+}
+.project-artwork {
+  position: relative;
+  aspect-ratio: 2;
+  overflow: hidden;
+  background: var(--color-bg);
+  border-block-end: 1px solid var(--color-border);
+}
+// All six inspected sources have the same composition. Show x=0..940, y=0..470:
+// names/tags only. The repeated portrait begins at x=970 and is never visible.
+.project-artwork .cover-image {
+  display: block;
+  inline-size: 170.213%;
+  max-inline-size: none;
+  block-size: auto;
+  transform-origin: left top;
+  transition: transform var(--motion-fast) var(--ease-premium);
+}
+.project-artwork--identity {
+  aspect-ratio: 47 / 7;
+}
+.project-artwork--identity .cover-image {
+  margin-block-start: -20.213%;
+}
+.artwork-label {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  inset-block-end: var(--space-2);
+  padding: 0.125rem 0.5rem;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+.project-body {
+  display: grid;
+  flex: 1;
+  gap: var(--space-4);
+  padding: var(--card-padding);
+}
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.project-icon {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+.project-number {
+  margin-inline-start: auto;
+}
+.project-heading {
+  display: grid;
+  gap: var(--space-2);
+}
+.project-highlights {
+  display: grid;
+  gap: var(--space-2);
+  padding-inline-start: 1.125rem;
+}
+.project-highlights li::marker {
+  color: var(--color-accent);
+}
+.project-tags {
+  list-style: none;
+  padding: 0;
+  --cluster-gap: var(--space-2);
+}
+.project-action {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  align-self: end;
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-border);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  font-weight: 600;
+}
+.project-action .icon {
+  transition: transform var(--motion-fast) var(--ease-premium);
+}
+.project-action::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.project-card:has(.project-action:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.projects-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+  margin-block-start: var(--space-7);
+  padding-block: var(--space-6);
+  border-block-start: 1px solid var(--color-border-accent);
+}
+@media (min-width: 48rem) {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 75rem) {
+  .project-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .project-entry {
+    grid-column: span 3;
+  }
+  .project-entry--lead {
+    grid-column: span 4;
+  }
+  .project-entry:nth-child(2) {
+    grid-column: span 2;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+  }
+  .project-card:hover .cover-image {
+    transform: scale(1.035);
+  }
+  .project-card:hover .project-action .icon {
+    transform: translateX(3px);
+  }
+}
+@media (max-width: 47.99rem) {
+  .projects-hero {
+    padding-inline: 0;
+  }
+  .project-body {
+    padding: var(--space-4);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .cover-image,
+  .project-action .icon {
+    transform: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .projects-hero h1:focus-visible::before {
+    background: Highlight;
+  }
+}

@@ -1,59 +1,80 @@
-# AkPortfolio
+# Aditya Kirtane — Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.8.
+A dark, red-accented Angular portfolio for an Angular Developer and Product Builder.
+Built with Angular 22 (lockfile: 22.2.2), standalone components, Signals, strict
+TypeScript/templates, lazy routes, SCSS tokens, and scoped GSAP motion.
 
-## Development server
+## Run and verify
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Use Node **24.21.0** and npm **11.19.0** for the tested setup. The installed Angular
+CLI accepts Node `^22.22.3 || ^24.15.0 || >=26.0.0`. Activate a compatible runtime
+in your shell first; `node --version` and `npm --version` must work.
 
 ```bash
-ng generate component component-name
+npm ci
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Open `http://localhost:4200/`. The development-only style guide is at
+`http://localhost:4200/design-system`; its route and component are excluded from production.
 
 ```bash
-ng generate --help
+npm run build
+npm run typecheck
+npm run test:ci
 ```
 
-## Building
+## Experience and routes
 
-To build the project run:
+Home opens with a skippable intro, then four profile choices and a profile-aware
+portal. Selection lasts for the app instance. Switch Profile returns to the selector;
+refreshing resets selection and replays Intro. No persistence is used.
 
-```bash
-ng build
-```
+Routes: `/`, `/about`, `/experience`, `/skills`, `/projects`, `/contact`, and:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- `/projects/slingsip`
+- `/projects/ready-inventory`
+- `/projects/ready-salesman`
+- `/projects/customer-portal`
+- `/projects/911care`
+- `/projects/collabspace`
 
-## Running unit tests
+Unknown URLs redirect home; unknown project slugs show a recovery page. The portfolio
+includes a career timeline, categorized skills, six project entries, reusable case
+studies, verified contact links, and a native PDF download. SlingSip and CollabSpace
+remain short, source-limited entries; richer content needs owner-verified documentation.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Keyboard navigation, destination focus, a skip link, responsive menus, forced-color
+styles, and reduced-motion alternatives are built in. GSAP contexts own animation
+cleanup. The optional desktop cursor preserves the native cursor and is disabled for
+touch and reduced motion. There are **no videos**, external fonts, or autoplay media.
 
-```bash
-ng test
-```
+## Assets
 
-## Running end-to-end tests
+Preserve supplied originals in `src/assets`. Use only the approved sunglasses/white-red
+shirt headshot, cropped to head/chest/upper body, never below mid-torso. Project covers
+are artwork, not screenshots; supplied company wordmarks are not official logos.
 
-For end-to-end (e2e) testing, run:
+Development serves the full asset pack. Production uses the explicit asset patterns
+in `angular.json`, retaining live URLs and reusable CSS assets while excluding reference
+mockups, source portraits, duplicate résumés, and unused assets. Add a required asset
+to those patterns when introducing a new live reference. Primitive brand values live
+in `src/assets/tokens/design-tokens.css`; semantic tokens live in `src/styles/_tokens.scss`.
 
-```bash
-ng e2e
-```
+## Deployment
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Publish **`dist/ak-portfolio/browser/`** after `npm run build`. Serve real static files
+normally and rewrite application routes to `index.html` so deep links and refresh work.
+Missing static assets should return 404. The app currently assumes deployment at `/`
+and uses client rendering; SSR is not enabled. No hosting provider is configured.
 
-## Additional Resources
+Use HTTPS. Cache hashed JS/CSS with a long immutable lifetime and revalidate `index.html`.
+Keep unhashed asset caching modest or version changed assets. Enable Brotli/gzip at the
+host. Choose the deployment origin before adding absolute canonical/social-share URLs.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+See [final QA and deployment readiness](docs/final-qa.md) for current results and limits.
+Detailed guides cover [foundation](docs/foundation.md), [design system](docs/design-system.md),
+[intro](docs/intro.md), [profiles](docs/explorer.md), [Home](docs/home.md), [About](docs/about.md),
+[experience](docs/experience.md), [skills](docs/skills.md), [projects](docs/projects.md),
+[case studies](docs/project-details.md), [Contact](docs/contact.md), and
+[route transitions](docs/route-transitions.md).

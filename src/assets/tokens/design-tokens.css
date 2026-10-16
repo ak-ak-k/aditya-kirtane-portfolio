@@ -1,0 +1,16 @@
+:root {
+  --bg: #070709;
+  --surface: #101014;
+  --accent: #ff2038;
+  --accent-dark: #c80f28;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --border-red: rgba(255,32,56,.35);
+  --glow-red: 0 0 32px rgba(255,32,56,.30);
+  --radius-card: 18px;
+  --radius-panel: 28px;
+  --motion-fast: 180ms;
+  --motion-normal: 360ms;
+  --motion-cinematic: 700ms;
+  --ease-premium: cubic-bezier(.2,.8,.2,1);
+}

@@ -1,0 +1,81 @@
+<section class="explorer cinematic-bg bg-red-glow" aria-labelledby="explorer-title">
+  <span class="bg-layer bg-smoke" aria-hidden="true"></span>
+  <div class="page-container explorer-container">
+    <div class="explorer-brand">
+      <img [ngSrc]="assets.logo" width="220" height="180" alt="" aria-hidden="true" />
+      <span class="text-meta">{{ portfolio.name }}</span>
+      <span class="explorer-brand-detail text-meta text-muted" aria-hidden="true"
+        >SAME PERSON. DIFFERENT PERSPECTIVES.</span
+      >
+    </div>
+
+    <header class="explorer-heading" data-explorer-heading>
+      <p class="eyebrow" aria-hidden="true">Same person / Different perspectives</p>
+      <h1 id="explorer-title" class="text-display white-red" tabindex="-1">
+        Who’s <span>Exploring?</span>
+      </h1>
+      <p class="text-body-lg text-muted">Pick a profile to explore my world.</p>
+    </header>
+
+    <ul class="explorer-grid" aria-label="Choose your portfolio profile">
+      @for (profile of profiles; track profile.id; let index = $index) {
+        <li [attr.data-profile-panel]="profile.id">
+          <button
+            class="card card--interactive profile-card"
+            [class]="'profile-card--' + profile.visualTheme"
+            [class.is-selected]="pendingSelection() === profile.id"
+            type="button"
+            [attr.aria-disabled]="pendingSelection() ? 'true' : null"
+            [attr.aria-busy]="pendingSelection() === profile.id ? 'true' : null"
+            (click)="select(profile.id)"
+          >
+            <span class="profile-visual" aria-hidden="true">
+              <span class="portrait portrait--card profile-portrait">
+                <img
+                  [ngSrc]="assets.portrait"
+                  fill
+                  sizes="(min-width: 75rem) 23vw, (min-width: 48rem) 45vw, 90vw"
+                  alt=""
+                />
+              </span>
+              <span class="profile-index text-meta">0{{ index + 1 }}</span>
+              <span class="profile-labels text-meta">
+                @for (label of profile.decorativeLabels; track label) {
+                  <span>{{ label }}</span>
+                }
+              </span>
+            </span>
+            <span class="profile-content">
+              <span class="profile-title-row">
+                <span
+                  class="icon icon--lg text-accent"
+                  [style.mask-image]="'url(' + profile.icon + ')'"
+                  aria-hidden="true"
+                ></span>
+                <span class="text-heading-4 profile-title" [id]="profile.id + '-title'">{{
+                  profile.title
+                }}</span>
+              </span>
+              <span
+                class="text-body-sm text-muted profile-description"
+                [id]="profile.id + '-description'"
+                >{{ profile.description }}</span
+              >
+              <span class="profile-cta text-body-sm" aria-hidden="true">
+                Explore <span class="icon icon--arrow"></span>
+              </span>
+            </span>
+            <span class="profile-sweep" data-profile-sweep aria-hidden="true"></span>
+          </button>
+        </li>
+      }
+    </ul>
+
+    @if (pendingProfile(); as profile) {
+      <p class="sr-only" role="status">Opening {{ profile.title }}.</p>
+    }
+    <p class="explorer-footer text-meta text-muted" aria-hidden="true">
+      ONE PERSON • MANY DIMENSIONS • SAME PASSION
+    </p>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+<section class="projects-hero cinematic-bg bg-red-glow" aria-labelledby="projects-title">
+  <div class="section-header" data-projects-heading>
+    <p class="eyebrow">Featured builds</p>
+    <h1 id="projects-title" class="text-display white-red" tabindex="-1">
+      AK <span>Originals</span>
+    </h1>
+    <p class="text-body-lg text-muted content-measure">
+      Real products. Real problems. Built with modern technologies and a focus on useful, scalable
+      experiences.
+    </p>
+    <p class="text-meta text-muted projects-count">{{ projects.length }} featured projects</p>
+  </div>
+</section>
+
+<p class="artwork-note text-body-sm text-muted">
+  Cover visuals are project artwork, not product screenshots.
+</p>
+
+<div class="project-grid">
+  @for (project of projects; track project.slug; let index = $index) {
+    <article
+      class="project-entry"
+      [class.project-entry--lead]="project.slug === 'slingsip'"
+      [attr.data-project-entry]="project.slug"
+      [attr.aria-labelledby]="project.slug + '-title'"
+    >
+      <div class="card project-card">
+        <div
+          class="project-artwork"
+          [class.project-artwork--identity]="project.type === 'Portfolio entry'"
+        >
+          <img
+            class="cover-image"
+            [ngSrc]="project.coverAsset"
+            width="1600"
+            height="900"
+            [priority]="index < 2"
+            [alt]="project.name + ' project cover artwork'"
+          />
+          <span class="artwork-label text-meta" aria-hidden="true">Cover artwork</span>
+        </div>
+        <div class="project-body">
+          <div class="project-meta">
+            <img class="project-icon" [ngSrc]="project.iconAsset" width="28" height="28" alt="" />
+            <span class="badge">{{ project.type }}</span>
+            <span class="project-number text-meta text-muted" aria-hidden="true"
+              >0{{ index + 1 }}</span
+            >
+          </div>
+          <div class="project-heading">
+            <p class="text-meta text-accent">{{ project.category }}</p>
+            <h2 class="text-heading-2" [id]="project.slug + '-title'">{{ project.name }}</h2>
+          </div>
+          <p class="text-body text-muted">{{ project.shortDescription }}</p>
+          @if (project.highlights.length) {
+            <ul class="project-highlights text-body-sm">
+              @for (highlight of project.highlights; track highlight) {
+                <li>{{ highlight }}</li>
+              }
+            </ul>
+          }
+          @if (project.technologies.length) {
+            <ul
+              class="cluster project-tags"
+              role="list"
+              [attr.aria-label]="project.name + ' technologies'"
+            >
+              @for (technology of project.technologies; track technology) {
+                <li class="badge badge--tech">{{ technology }}</li>
+              }
+            </ul>
+          }
+          <a
+            class="project-action text-body-sm"
+            [id]="project.slug + '-action'"
+            [routerLink]="project.detailRoute"
+            data-cursor="project"
+            [attr.aria-labelledby]="project.slug + '-title ' + project.slug + '-action'"
+            >View Project <span class="icon icon--arrow" aria-hidden="true"></span
+          ></a>
+        </div>
+      </div>
+    </article>
+  }
+</div>
+
+<section class="projects-contact" aria-labelledby="projects-contact-title">
+  <h2 id="projects-contact-title" class="text-heading-3">Let’s build something useful.</h2>
+  <a class="btn btn--secondary" routerLink="/contact"
+    >Get in touch <span class="icon icon--arrow" aria-hidden="true"></span
+  ></a>
+</section>

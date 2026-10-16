@@ -1,0 +1,47 @@
+.white-red {
+  color: var(--color-text);
+}
+
+.white-red > span,
+.red-accent {
+  color: var(--color-accent);
+}
+
+.brush-accent {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  padding-block-end: 0.18em;
+  color: var(--color-text);
+}
+
+.brush-accent::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  inset-block-end: -0.02em;
+  block-size: 0.25em;
+  background: url('/assets/textures/brush-stroke-red.svg') center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+// Decorative duplicate text only: always use aria-hidden="true" on this element.
+.outline-background-word {
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  inset-block-start: 0;
+  max-inline-size: 100%;
+  overflow: hidden;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-border-accent);
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 14vw, 12rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}

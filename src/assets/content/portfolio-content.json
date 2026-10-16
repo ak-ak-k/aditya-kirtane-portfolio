@@ -1,0 +1,54 @@
+{
+  "brand": {
+    "name": "Aditya Kirtane",
+    "headline": "Angular Developer \u2022 Product Builder",
+    "theme": "Cinematic dark black + neon red"
+  },
+  "screens": [
+    "Loading / Intro",
+    "Who\u2019s Exploring?",
+    "The Full Story",
+    "Top Moments",
+    "My Skill Universe",
+    "AK Originals",
+    "Let\u2019s Build Something Great"
+  ],
+  "profiles": [
+    "Angular Engineer",
+    "Full Stack Builder",
+    "Product Thinker",
+    "Resume Viewer"
+  ],
+  "projects": [
+    {
+      "name": "SlingSip",
+      "cover": "projects/covers/slingsip-cover.webp"
+    },
+    {
+      "name": "Ready Inventory",
+      "cover": "projects/covers/ready-inventory-cover.webp"
+    },
+    {
+      "name": "Ready Salesman",
+      "cover": "projects/covers/ready-salesman-cover.webp"
+    },
+    {
+      "name": "Customer Portal",
+      "cover": "projects/covers/customer-portal-cover.webp"
+    },
+    {
+      "name": "911Care",
+      "cover": "projects/covers/911care-cover.webp"
+    },
+    {
+      "name": "CollabSpace",
+      "cover": "projects/covers/collabspace-cover.webp"
+    }
+  ],
+  "assetRules": [
+    "Use the sunglasses + white/red shirt photo.",
+    "Use upper-body crops only; never show pants/lower body.",
+    "No video assets.",
+    "Use official company/project logos later if provided; included company SVGs are placeholders."
+  ]
+}

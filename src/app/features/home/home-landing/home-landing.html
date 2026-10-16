@@ -1,0 +1,103 @@
+<section class="landing cinematic-bg bg-red-glow" aria-labelledby="home-title">
+  <span class="bg-layer bg-halo" data-home-halo aria-hidden="true"></span>
+  <div class="page-container landing-hero">
+    <div class="hero-copy">
+      <p class="eyebrow" data-home-copy>{{ content().eyebrow }}</p>
+      <h1 id="home-title" class="text-display-xl white-red" tabindex="-1" data-home-copy>
+        Aditya <span>Kirtane</span>
+      </h1>
+      <p class="hero-subtitle text-body-lg" data-home-copy>{{ portfolio.headline }}</p>
+      <p class="text-body text-muted" data-home-copy>
+        4+ years building scalable web, mobile, and product experiences.
+      </p>
+      <div class="hero-perspective" data-home-copy>
+        <p class="text-body-lg">{{ content().headlineAccent }}</p>
+        <p class="text-body-sm text-muted">{{ content().supportingText }}</p>
+      </div>
+      <div class="hero-actions" data-home-actions>
+        <div class="cluster">
+          <a class="btn btn--primary" routerLink="/projects" data-cursor="project"
+            >Explore Projects <span class="icon icon--arrow" aria-hidden="true"></span
+          ></a>
+          <a class="btn btn--secondary" routerLink="/about">About Me</a>
+        </div>
+        <a
+          class="resume-link text-body-sm"
+          [href]="assets.resume"
+          download="Aditya-Kirtane-Resume.pdf"
+          data-cursor="open"
+          ><span class="icon icon--download" aria-hidden="true"></span>Download Resume
+          <span class="sr-only">(PDF)</span></a
+        >
+        <div class="profile-controls">
+          <p class="text-meta text-muted">
+            Exploring as <strong>{{ profileTitle() }}</strong>
+          </p>
+          <button type="button" class="btn btn--ghost" (click)="switchProfile()">
+            Switch Profile
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" data-home-portrait>
+      <div class="portrait portrait--hero hero-portrait">
+        <img
+          [ngSrc]="assets.portrait"
+          fill
+          priority
+          sizes="(min-width: 64rem) 40vw, (min-width: 48rem) 45vw, 90vw"
+          alt="Aditya Kirtane wearing sunglasses and a white and red shirt, head-and-chest portrait"
+        />
+      </div>
+      <span class="portrait-note text-meta" aria-hidden="true"
+        >ENGINEERING / PRODUCT / POSSIBILITY</span
+      >
+    </div>
+  </div>
+</section>
+
+<section class="launcher-section page-container" aria-labelledby="explore-title">
+  <div class="launcher-heading">
+    <div>
+      <p class="eyebrow">Your next perspective</p>
+      <h2 id="explore-title" class="text-heading-3">Continue exploring</h2>
+    </div>
+    <a routerLink="/contact" class="text-body-sm">Let’s talk <span aria-hidden="true">↗</span></a>
+  </div>
+  <nav aria-label="Explore portfolio" class="launcher-grid">
+    @for (launcher of launchers; track launcher.path) {
+      <a
+        class="card card--interactive launcher-card"
+        [routerLink]="launcher.path"
+        [attr.data-cursor]="launcher.path === '/projects' ? 'project' : null"
+        data-home-launcher
+      >
+        <span
+          class="icon icon--lg text-accent"
+          [style.mask-image]="'url(assets/icons/ui/' + launcher.icon + '.svg)'"
+          aria-hidden="true"
+        ></span>
+        <span class="text-label text-muted">{{ launcher.label }}</span>
+        <span class="launcher-title"
+          ><span class="text-heading-4">{{ launcher.title }}</span
+          ><span class="icon icon--arrow" aria-hidden="true"></span
+        ></span>
+      </a>
+    }
+    <a
+      class="card card--interactive launcher-card"
+      [href]="assets.resume"
+      download="Aditya-Kirtane-Resume.pdf"
+      data-cursor="open"
+      data-home-launcher
+    >
+      <span class="icon icon--download icon--lg text-accent" aria-hidden="true"></span>
+      <span class="text-label text-muted">Resume</span>
+      <span class="launcher-title"
+        ><span class="text-heading-4">Professional overview</span
+        ><span class="icon icon--download" aria-hidden="true"></span
+      ></span>
+      <span class="text-body-sm text-muted">Download PDF</span>
+    </a>
+  </nav>
+</section>

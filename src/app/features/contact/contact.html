@@ -1,0 +1,82 @@
+<section class="contact-hero cinematic-bg bg-red-glow" aria-labelledby="contact-title">
+  <span class="bg-layer bg-light-streak" aria-hidden="true"></span>
+  <div class="contact-copy" data-contact-heading>
+    <p class="eyebrow">Contact me</p>
+    <h1 id="contact-title" class="text-display white-red" tabindex="-1">
+      Let’s build <span>something great</span>
+    </h1>
+    <p class="text-body-lg text-muted content-measure">{{ contact.supportingCopy }}</p>
+    <div class="cluster contact-actions" data-contact-actions>
+      <a class="btn btn--primary" [href]="'mailto:' + contact.email"
+        >Send Message <span class="icon icon--mail" aria-hidden="true"></span
+      ></a>
+      <a
+        class="btn btn--secondary"
+        [href]="contact.linkedin"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="open"
+        >View LinkedIn <span class="icon icon--external" aria-hidden="true"></span
+        ><span class="sr-only"> (opens in a new tab)</span></a
+      >
+      <a
+        class="btn btn--ghost"
+        [href]="contact.resumePath"
+        download="Aditya-Kirtane-Resume.pdf"
+        data-cursor="open"
+        >Download Resume <span class="icon icon--download" aria-hidden="true"></span
+        ><span class="sr-only"> (PDF)</span></a
+      >
+    </div>
+  </div>
+  <figure class="contact-visual" data-contact-portrait>
+    <div class="portrait portrait--hero portrait--rim contact-portrait">
+      <img
+        [ngSrc]="contact.portrait"
+        fill
+        priority
+        sizes="(min-width: 64rem) 24rem, 14rem"
+        alt="Aditya Kirtane wearing sunglasses and a white and red shirt, head-and-chest portrait"
+      />
+    </div>
+    <figcaption class="text-meta text-muted">Aditya Kirtane · Angular Developer</figcaption>
+  </figure>
+</section>
+
+<section class="contact-information" aria-labelledby="contact-details-title">
+  <h2 id="contact-details-title" class="text-heading-3">Let’s connect</h2>
+  <address>
+    <dl class="contact-cards">
+      @for (card of cards; track card.id) {
+        <div
+          class="card contact-card"
+          [class.contact-card--interactive]="!!card.href"
+          data-contact-card
+        >
+          <dt class="text-label text-muted" [id]="card.id + '-label'">
+            <img [ngSrc]="card.icon" width="28" height="28" alt="" />{{ card.label }}
+          </dt>
+          <dd class="text-body">
+            @if (card.href; as href) {
+              <a
+                [id]="card.id + '-value'"
+                [href]="href"
+                [attr.target]="card.external ? '_blank' : null"
+                [attr.rel]="card.external ? 'noopener noreferrer' : null"
+                [attr.data-cursor]="card.external ? 'open' : null"
+                [attr.aria-labelledby]="card.id + '-label ' + card.id + '-value'"
+                >{{ card.value }}
+                @if (card.external) {
+                  <span class="icon icon--external icon--sm" aria-hidden="true"></span
+                  ><span class="sr-only"> (opens in a new tab)</span>
+                }
+              </a>
+            } @else {
+              {{ card.value }}
+            }
+          </dd>
+        </div>
+      }
+    </dl>
+  </address>
+</section>

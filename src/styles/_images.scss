@@ -1,0 +1,48 @@
+// Cropped source images only. CSS cannot guarantee a safe crop of an arbitrary original.
+// Wrap an NgOptimizedImage in this frame; use the approved headshot/card source assets.
+.portrait {
+  position: relative;
+  isolation: isolate;
+  inline-size: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.portrait > img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.portrait--hero {
+  max-inline-size: 36rem;
+  aspect-ratio: 1;
+  mask-image: linear-gradient(var(--color-bg) 75%, transparent);
+}
+
+.portrait--card {
+  aspect-ratio: 4 / 3;
+}
+
+.portrait--ghost > img {
+  opacity: 0.2;
+  filter: grayscale(1);
+}
+
+.portrait--red-treatment::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent-dark);
+  mix-blend-mode: color;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.portrait--rim {
+  border: var(--border-width) solid var(--color-border-accent);
+  box-shadow: var(--glow-sm);
+}

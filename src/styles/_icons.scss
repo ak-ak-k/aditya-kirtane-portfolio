@@ -1,0 +1,38 @@
+.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  inline-size: var(--icon-md);
+  block-size: var(--icon-md);
+  background-color: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+.icon--sm {
+  inline-size: var(--icon-sm);
+  block-size: var(--icon-sm);
+}
+
+.icon--md {
+  inline-size: var(--icon-md);
+  block-size: var(--icon-md);
+}
+
+.icon--lg {
+  inline-size: var(--icon-lg);
+  block-size: var(--icon-lg);
+}
+
+.icon--xl {
+  inline-size: var(--icon-xl);
+  block-size: var(--icon-xl);
+}
+
+@each $name in code, arrow, mail, github, external, download {
+  .icon--#{$name} {
+    mask-image: url('/assets/icons/ui/#{$name}.svg');
+  }
+}
