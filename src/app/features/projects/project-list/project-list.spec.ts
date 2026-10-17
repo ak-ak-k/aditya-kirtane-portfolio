@@ -64,6 +64,48 @@ describe('AK Originals showcase', () => {
     );
     expect(el.querySelector('.projects-count')?.textContent).toContain(String(PROJECTS.length));
   });
+  it('renders one decorative two-digit cover index per project in the unchanged catalog order', () => {
+    const cards = Array.from(render().querySelectorAll('[data-project-entry]'));
+    expect(cards).toHaveLength(6);
+    expect(
+      cards.map((card) => [
+        card.querySelector('h2')?.textContent,
+        card.getAttribute('data-project-entry'),
+        card.querySelector('.project-number')?.textContent,
+      ]),
+    ).toEqual([
+      ['SlingSip', 'slingsip', '01'],
+      ['Ready Inventory', 'ready-inventory', '02'],
+      ['Ready Salesman', 'ready-salesman', '03'],
+      ['Customer Portal', 'customer-portal', '04'],
+      ['911Care', '911care', '05'],
+      ['CollabSpace', 'collabspace', '06'],
+    ]);
+    for (const card of cards) {
+      expect(card.querySelectorAll('.project-number')).toHaveLength(1);
+      const number = card.querySelector('.project-artwork .project-number')!;
+      expect(number.getAttribute('aria-hidden')).toBe('true');
+      expect(number.hasAttribute('tabindex')).toBe(false);
+      expect(card.querySelector('.project-body .project-number')).toBeNull();
+      // Index remains real text even when cover artwork cannot load.
+      card.querySelector('.cover-image')?.remove();
+      expect(number.textContent).toMatch(/^\d{2}$/);
+      expect(card.querySelector('a')?.getAttribute('href')).toBe(
+        '/projects/' + card.getAttribute('data-project-entry'),
+      );
+    }
+  });
+  it('formats array indices without a duplicate sequence configuration', async () => {
+    const { formatProjectIndex } = await import('./project-list');
+    expect([0, 1, 5, 8, 9, 10].map(formatProjectIndex)).toEqual([
+      '01',
+      '02',
+      '06',
+      '09',
+      '10',
+      '11',
+    ]);
+  });
   it('keeps catalog slugs unique, closed asset paths aligned, and compact tags/highlights sourced', () => {
     const catalog: readonly ProjectSummary[] = PROJECTS;
     expect(new Set(catalog.map((p) => p.slug)).size).toBe(catalog.length);

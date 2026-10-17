@@ -50,15 +50,20 @@
 }
 .project-artwork {
   position: relative;
-  aspect-ratio: 2;
   overflow: hidden;
   background: var(--color-bg);
   border-block-end: 1px solid var(--color-border);
 }
+.project-cover {
+  aspect-ratio: var(--cover-ratio, 2);
+  overflow: hidden;
+}
 // All six inspected sources have the same composition. Show x=0..940, y=0..470:
 // names/tags only. The repeated portrait begins at x=970 and is never visible.
-.project-artwork .cover-image {
+.cover-image {
   display: block;
+  // Hide the baked index at source y=180..214; names begin below y=245.
+  mask: linear-gradient(transparent 24%, black 25.4%);
   inline-size: 170.213%;
   max-inline-size: none;
   block-size: auto;
@@ -66,15 +71,16 @@
   transition: transform var(--motion-fast) var(--ease-premium);
 }
 .project-artwork--identity {
-  aspect-ratio: 47 / 7;
+  --cover-ratio: 47 / 7;
+  padding-block-start: 4.5rem;
 }
-.project-artwork--identity .cover-image {
+.project-artwork--identity img {
   margin-block-start: -20.213%;
 }
 .artwork-label {
   position: absolute;
   inset-inline-end: var(--space-3);
-  inset-block-end: var(--space-2);
+  inset-block-start: 1.25rem;
   padding: 0.125rem 0.5rem;
   background: var(--color-bg);
   border-radius: var(--radius-sm);
@@ -97,7 +103,17 @@
   block-size: 1.75rem;
 }
 .project-number {
-  margin-inline-start: auto;
+  position: absolute;
+  z-index: 1;
+  top: 1.25rem;
+  left: 1.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font: 700 clamp(1rem, 1.2vw, 1.3rem) / 1.2 var(--font-code);
+  pointer-events: none;
 }
 .project-heading {
   display: grid;

@@ -95,3 +95,42 @@ build/test/browser results are recorded in the detail guide.
 Step 11 supplies [Contact](contact.md) and [global route transitions](route-transitions.md),
 including list/detail navigation. Catalog data and source limits are unchanged.
 Final production QA is recorded in [final-qa.md](final-qa.md).
+
+## Project numbering fix ? 17 October 2026
+
+Cover artwork included its own baked-in index, while the card body rendered another
+number. The shallow identity crops could clip the baked digits. The list now renders
+exactly one non-focusable, aria-hidden HTML badge per card, using
+`formatProjectIndex(index)` (`String(index + 1).padStart(2, '0')`). The existing
+PROJECTS array remains the sole source of order: SlingSip 01, Ready Inventory 02,
+Ready Salesman 03, Customer Portal 04, 911Care 05, CollabSpace 06.
+
+The badge sits 1.25rem from the visual's top and left. A CSS alpha mask hides the
+inspected source number region (source y=180?214, fully transparent through y=216,
+fully opaque by y?229; project names start at y=245). The original six source files
+remain unchanged. Their portrait-safe horizontal crops and identity-only name crops
+remain; a clipping wrapper separates those crops from the badge. SlingSip and
+CollabSpace reserve a 4.5rem header so the badge cannot collide with their shallow
+name strips. The unchanged ?Cover artwork? label is positioned at the top right on
+all covers. No content, catalog, slug, route, detail page, animation, hover behavior,
+cursor, global style, dependency, or other page is changed.
+
+Changed implementation files are project-list.ts, project-list.html,
+project-list.scss, and project-list.spec.ts; this document records the fix. Two new
+tests lock down all six name/slug/number associations, exactly one badge per card,
+absence of body duplicates, hidden/non-focusable semantics, independence from image
+text/loading, unchanged links, and two-digit formatting including indices above 9.
+
+Production build passes within the existing budgets without warnings. Application
+and test type checks pass. All 170 tests across 24 files pass.
+
+Production browser verification passed 1920?1080, 1440?900, 1366?768, 768?1024,
+390?844, and 320?740 with both normal and reduced motion (12 configurations).
+All 12 AXE audits reported zero violations. Every card had one correctly associated,
+fully contained badge, no body duplicate, no overlap with its artwork label, the
+original detail link, and a loaded cover. There was no horizontal overflow, console
+warning/error, missing image, or measured layout shift while scrolling/revealing
+cards (CLS 0). Desktop and 320 px close-ups of SlingSip, 911Care, and CollabSpace
+were inspected. Formatting and git diff whitespace checks pass. Browser tooling and
+screenshots remain in the existing temporary project-numbering directory outside
+the repository; no dependency was added.

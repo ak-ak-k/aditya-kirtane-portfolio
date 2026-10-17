@@ -16,6 +16,8 @@ export class ProjectList {
   private readonly destroyRef = inject(DestroyRef);
   protected readonly projects: readonly ProjectSummary[] = PROJECTS;
 
+  protected readonly formatProjectIndex = formatProjectIndex;
+
   constructor() {
     afterNextRender(() => {
       const scope = this.element.nativeElement;
@@ -25,4 +27,8 @@ export class ProjectList {
       this.destroyRef.onDestroy(cleanup);
     });
   }
+}
+
+export function formatProjectIndex(index: number): string {
+  return String(index + 1).padStart(2, '0');
 }
