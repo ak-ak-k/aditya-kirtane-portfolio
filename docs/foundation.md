@@ -1,5 +1,7 @@
 # Portfolio foundation — Step 1
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 Step 1 architecture is implemented and preserved. The navigation and route placeholders
 exist to verify architecture; they are not the portfolio design. Step 2 now adds the
 reusable visual language and a development-only preview; see [design-system.md](design-system.md).
@@ -126,8 +128,8 @@ asset JSON remains reference material rather than automatically published page c
 | Unknown URLs      | Redirect to `/`                    | home       |
 
 Feature components use `loadComponent`. Projects also use `loadChildren` to keep their
-route configuration isolated. No eager preloading is configured. Intro and profile
-selection will be part of home, not additional routes.
+route configuration isolated. No eager preloading is configured. Intro and the canonical Home are internal states
+of the home feature; no additional routes are needed.
 
 Route titles update the document title. Component input binding supplies `:slug` to a
 required signal input, including when navigating between projects on the same component.
@@ -145,20 +147,16 @@ application routes to `index.html` for direct visits and refreshes.
 
 | State             | Source and behavior                                                  |
 | ----------------- | -------------------------------------------------------------------- |
-| `selectedProfile` | Typed explorer profile ID or `null`; `selectProfile()`               |
 | `activeSection`   | Computed from the active route's section metadata                    |
 | `selectedProject` | Computed project slug or `null`; the URL is the source of truth      |
 | `introCompleted`  | `false` until `completeIntro()`                                      |
 | `menuOpen`        | `setMenuOpen()` / `toggleMenu()`; closes after successful navigation |
 | `cursorMode`      | `setCursorMode()`; returns to `default` after successful navigation  |
 
-Navigation subscriptions are destroyed with the service. Profile/intro choices persist
-across navigation in memory; refreshing resets them. Persistence is intentionally deferred
-until a later step. Step 4 uses the existing profile API for its selector, and
-Step 5 uses `selectProfile(null)` to switch back without replaying Intro. Its
-optional cursor uses the existing cursor signal, with one added `open` mode.
-Step 11 now provides [global route transitions](route-transitions.md) in the planned
-layout folder, without changing this shared state contract.
+Navigation subscriptions are destroyed with the service. Intro completion remains
+in memory across navigation; refresh resets it. Profile state/actions/types have
+been removed. Active route, selected project, menu, cursor, and motion contracts
+remain unchanged. See [home-cleanup.md](home-cleanup.md).
 
 ## Animation contract
 
@@ -187,7 +185,7 @@ The supplied `tokens/design-tokens.css` is loaded before `src/styles.scss` and i
 source of theme colors/motion values. The shell only applies basic dark defaults;
 cinematic layouts, glow, smoke, textures, glass cards, and typography are deferred.
 
-Brand: **Aditya Kirtane — Angular Developer • Product Builder**.
+Brand: **Aditya Kirtane — Angular Developer**.
 
 Use only the supplied sunglasses and white/red graphic T-shirt photo, with head/chest/
 upper-body crops. Never show pants or lower body. No portraits are rendered in Step 1.

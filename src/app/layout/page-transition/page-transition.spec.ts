@@ -29,7 +29,6 @@ describe('Global route transitions', () => {
   const removeListener = vi.fn();
   const state = {
     introCompleted: signal(true),
-    selectedProfile: signal<string | null>('angular-engineer'),
     setCursorMode: vi.fn(),
   };
   const router = { navigated: true, url: '/about', events: new Subject<RouterEvent>() };
@@ -43,7 +42,6 @@ describe('Global route transitions', () => {
     router.navigated = true;
     router.url = '/about';
     state.introCompleted.set(true);
-    state.selectedProfile.set('angular-engineer');
     load.mockImplementation(() => Promise.resolve(create));
     vi.stubGlobal(
       'matchMedia',
@@ -195,16 +193,27 @@ describe('Global route transitions', () => {
     await flush();
     expect(load).not.toHaveBeenCalled();
   });
-  it('does not respond to internal Home profile/intro state changes or entering its special flow', async () => {
+  it('does not respond to internal Home intro state changes or entering its special flow', async () => {
     router.url = '/';
     render();
-    state.selectedProfile.set(null);
     state.introCompleted.set(false);
     TestBed.tick();
     expect(load).not.toHaveBeenCalled();
     emit(new NavigationStart(2, '/about'));
     await flush();
     expect(load).not.toHaveBeenCalled();
+  });
+  it('keeps Intro-to-Home internal, then enables ordinary Home navigation without profile state', async () => {
+    router.url = '/';
+    state.introCompleted.set(false);
+    render();
+    state.introCompleted.set(true);
+    TestBed.tick();
+    expect(load).not.toHaveBeenCalled();
+    expect(active()).toBe(false);
+    emit(new NavigationStart(2, '/about'));
+    await flush();
+    expect(animator.start).toHaveBeenCalledTimes(1);
   });
   it('supports popstate Back/Forward and same-component project slug navigation', async () => {
     router.url = '/projects/slingsip';

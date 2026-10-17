@@ -1,16 +1,16 @@
 # Cinematic introduction — Step 3
 
-Step 3 implements the opening/loading experience. Its original neutral handoff has
-now been replaced by the approved [Step 4 Who's Exploring selector](explorer.md).
-The standalone/lazy architecture, Signals store, design system, intro behavior, and
-asset pack are preserved. [Step 5](home.md) now supplies the post-profile Main Home.
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
+The opening/loading experience retains its existing design, readiness checks,
+animation, reduced-motion path, and safety timeout. Completion and Skip Intro now
+lead directly to the canonical [Home](home.md).
 
 ## Structure and visual direction
 
-Home reads the existing `UiState.introCompleted()` signal. While false, it renders
-one dedicated Intro component. Once completed, Step 4 renders **Who's Exploring?**
-until a profile is selected. The production navigation returns with Step 5's Main Home.
-Intro completion itself still only calls `completeIntro()`.
+Home reads `UiState.introCompleted()`. While false it renders Intro; once true it
+renders HomeLanding directly. The navbar/cursor mount after Intro, the Home H1
+receives focus, and scroll resets to the top. Completion still calls `completeIntro()`.
 
 The intro is a full-viewport dark composition with a real AK monogram, one cropped
 portrait, two HTML name groups, professional subtitle, progress track, and a subtle
@@ -121,7 +121,7 @@ labels are `aria-hidden`; no decorative layer intercepts pointer input.
 
 The focused intro heading uses a visible red side marker instead of a large outline
 box. Interactive controls retain the design system's keyboard focus rings. There is
-no focus trap. After skip or automatic completion, the shell focuses the Explorer H1.
+no focus trap. After skip or automatic completion, the shell focuses the real Home H1.
 The shell omits ordinary navigation while the home intro or selector is active; direct visits
 to other routes and the development design-system preview retain their normal shell.
 
@@ -149,7 +149,7 @@ specs, README, and the completion notes in foundation/design-system documentatio
 Routes, UiState implementation, shared GSAP helpers, global style primitives, asset
 files, and package manifests are unchanged in Step 3.
 
-## Verification
+## Historical Step 3 verification
 
 ```bash
 npm run build
@@ -184,7 +184,7 @@ overflow, or vertical scrolling were observed at the tested sizes. Live preferen
 changes, keyboard skip, handoff focus, reload, routing, return visits, slow-image skip,
 stalled-image safety timeout, and the JavaScript-disabled fallback passed.
 
-## Step 4 integration
+## Historical Step 4 integration (superseded)
 
 Review the actual opening at `http://localhost:4300/` (or `http://localhost:4200/`
 after `npm start`), including the pace, restrained portrait treatment, and mobile

@@ -18,7 +18,7 @@ describe('Experience animation ownership', () => {
     ({ animateExperience } = await import('./experience-animation'));
   });
   afterAll(() => vi.unstubAllGlobals());
-  it('cleans its three triggers and timelines without global kills or late DOM mutation', () => {
+  it('cleans its four triggers and timelines without global kills or late DOM mutation', () => {
     const scope = document.createElement('div');
     scope.innerHTML = '<header data-career-heading>Top moments</header>';
     for (let i = 0; i < 3; i++) {
@@ -30,16 +30,28 @@ describe('Experience animation ownership', () => {
       entry.getBoundingClientRect = () => new DOMRect(0, 1500 + i * 600, 500, 500);
       scope.append(entry);
     }
+    const journey = document.createElement('aside');
+    journey.setAttribute('data-journey', '');
+    journey.innerHTML =
+      '<header data-journey-heading>Journey overview</header><svg data-journey-landscape></svg><svg><path data-journey-path pathLength="1" /></svg>' +
+      '<div data-journey-milestone><span data-journey-node></span><div data-journey-caption>Verified role</div></div>'.repeat(
+        3,
+      );
+    journey.getBoundingClientRect = () => new DOMRect(600, 1500, 500, 600);
+    scope.append(journey);
     const other = document.createElement('div');
     document.body.append(scope, other);
     const unrelated = runtime.ScrollTrigger.create({ trigger: other, start: 4000, end: 5000 });
     const before = new Set(runtime.ScrollTrigger.getAll());
     const context = runtime.gsap.context(() => animateExperience(scope), scope);
     try {
-      expect(runtime.ScrollTrigger.getAll().filter((t) => !before.has(t))).toHaveLength(3);
+      expect(runtime.ScrollTrigger.getAll().filter((t) => !before.has(t))).toHaveLength(4);
       context.revert();
       expect(runtime.ScrollTrigger.getAll().filter((t) => !before.has(t))).toHaveLength(0);
       expect(runtime.ScrollTrigger.getAll()).toContain(unrelated);
+      expect(scope.querySelector<SVGElement>('[data-journey-path]')?.style.strokeDashoffset).toBe(
+        '',
+      );
       const markup = scope.innerHTML;
       window.dispatchEvent(new Event('scroll'));
       runtime.ScrollTrigger.update();

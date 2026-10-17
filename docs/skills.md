@@ -1,5 +1,7 @@
 # My skill universe — Step 8
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 Step 8 replaces only the existing lazy `/skills` placeholder. Routing, Home,
 About, Experience, Intro, Explorer, Signals state, navbar, cursor, motion helper,
 global styles, supplied assets, and dependencies remain unchanged. The
@@ -57,7 +59,7 @@ stateless and adds no shared state or dynamic class-name generation.
 ## Composition and assets
 
 The hero has the “My capabilities” eyebrow, one H1 “My skill universe,” concise
-supporting copy, and an Angular Developer / Product Builder identity line. Its
+supporting copy, and an Angular Developer identity line. Its
 abstract universe uses two quiet CSS orbit lines, a ring, a dot, and a restrained
 red radial halo, all in one aria-hidden, pointer-transparent clipped layer. These
 graphics are static under every motion preference. No canvas, particles, blur

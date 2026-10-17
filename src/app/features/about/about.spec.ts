@@ -144,16 +144,11 @@ describe('The full story', () => {
     ).toBeNull();
     expect(el.querySelector('.bg-layer')?.getAttribute('aria-hidden')).toBe('true');
   });
-  it('keeps one story regardless of selected profile and leaves shared state intact', () => {
+  it('leaves intro completion intact while rendering the story', () => {
     const state = TestBed.inject(UiState);
-    state.selectProfile('angular-engineer');
     state.completeIntro();
     const el = render();
-    const before = el.textContent;
-    state.selectProfile('resume-viewer');
-    TestBed.tick();
-    expect(el.textContent).toBe(before);
-    expect(state.selectedProfile()).toBe('resume-viewer');
+    expect(el.querySelector('h1')?.textContent?.trim()).toBe('The full story');
     expect(state.introCompleted()).toBe(true);
   });
   it('shows all semantic content without animation in reduced motion', () => {

@@ -5,10 +5,12 @@ import {
   EXPERIENCE_ROLES,
   CareerRole,
 } from './experience.config';
+import { JourneyOverview } from './journey-overview';
 import { EXPERIENCE_EFFECTS } from './experience-effects';
 
 @Component({
   selector: 'app-experience',
+  imports: [JourneyOverview],
   templateUrl: './experience.html',
   styleUrl: './experience.scss',
 })

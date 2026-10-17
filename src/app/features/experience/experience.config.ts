@@ -3,6 +3,7 @@ interface CareerDate {
   readonly label: string;
 }
 interface CareerHighlight {
+  readonly journeyLabel?: string;
   readonly text: string;
   readonly source: string;
 }
@@ -47,6 +48,7 @@ export const EXPERIENCE_ROLES = [
       'Building and maintaining production applications across inventory, customer services, and healthcare, with Angular and the MEAN stack.',
     highlights: [
       {
+        journeyLabel: 'Production Angular SPAs',
         text: 'Architected and maintained Ready Inventory, Customer Portal, and 911Care (App & Admin) as production Angular SPAs.',
         source: 'Resume p1, Onelife bullet 1.',
       },
@@ -55,10 +57,12 @@ export const EXPERIENCE_ROLES = [
         source: 'Resume p1, Onelife bullet 2.',
       },
       {
+        journeyLabel: 'Real-time dashboards',
         text: 'Built real-time sales and inventory analytics dashboards with Angular Material and RxJS.',
         source: 'Resume p1, Onelife bullet 3.',
       },
       {
+        journeyLabel: 'Payments & WebRTC',
         text: 'Integrated Razorpay and Paytm payments, plus WebRTC communication between admin, customer, and vendor roles.',
         source: 'Resume p1, Onelife bullet 4.',
       },
@@ -95,14 +99,17 @@ export const EXPERIENCE_ROLES = [
       'Developing responsive Angular interfaces for CRM workflows and reusable frontend features backed by Firebase.',
     highlights: [
       {
+        journeyLabel: 'CRM workflows',
         text: 'Built CRM workflows covering Store, Cart, Wallet, and Rewards, integrated with Firebase Firestore.',
         source: 'Resume p1, Refr bullet 1.',
       },
       {
+        journeyLabel: 'Reusable components',
         text: 'Developed a reusable Angular component library to support cross-team development.',
         source: 'Resume p1, Refr bullet 2.',
       },
       {
+        journeyLabel: 'Firebase integration',
         text: 'Managed Firebase CRUD operations and real-time synchronization with AngularFire, with cross-browser checks and component API documentation.',
         source: 'Resume p1, Refr bullet 3.',
       },
@@ -131,14 +138,17 @@ export const EXPERIENCE_ROLES = [
       'Establishing a professional frontend foundation through reusable Angular UI, responsive design, and collaboration with senior developers.',
     highlights: [
       {
+        journeyLabel: 'Responsive Angular UI',
         text: 'Developed reusable Angular UI components using component-driven architecture and responsive design principles.',
         source: 'Resume p1, The Contrast bullet 1.',
       },
       {
+        journeyLabel: 'Frontend architecture',
         text: 'Implemented CRUD operations and contributed to frontend architecture improvements.',
         source: 'Resume p1, The Contrast bullet 2.',
       },
       {
+        journeyLabel: 'Team collaboration',
         text: 'Collaborated with senior developers using Git and GitLab.',
         source: 'Resume p1, The Contrast bullet 2.',
       },

@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { UiState } from '../../../core/services/ui-state';
-import { EXPLORER_PROFILES } from '../../../core/constants/explorer-profiles';
 import type { Home } from '../home';
-import { HOME_ASSETS, HOME_PROFILE_CONTENT } from './home-landing.config';
+import { HOME_ASSETS, HOME_CONTENT } from './home-landing.config';
 
 let HomeComponent: typeof import('../home').Home;
 let effectsToken: typeof import('./home-landing-effects').HOME_LANDING_EFFECTS;
@@ -57,47 +56,25 @@ describe('Main Home', () => {
     TestBed.tick();
     return fixture.nativeElement as HTMLElement;
   }
-  it.each(EXPLORER_PROFILES)(
-    'resolves the $title perspective with one semantic hero',
-    (profile) => {
-      TestBed.inject(UiState).selectProfile(profile.id);
-      const element = render();
-      const content = HOME_PROFILE_CONTENT[profile.id];
-      expect(element.querySelector('app-home-landing')).not.toBeNull();
-      expect(element.querySelector('app-explorer')).toBeNull();
-      expect(element.querySelectorAll('h1')).toHaveLength(1);
-      expect(element.querySelector('h1')?.textContent?.trim()).toBe('Aditya Kirtane');
-      expect(element.textContent).toContain(content.eyebrow);
-      expect(element.textContent).toContain(content.headlineAccent);
-      expect(element.textContent).toContain(content.supportingText);
-      expect(element.querySelector('.profile-controls')?.textContent).toContain(profile.title);
-    },
-  );
-  it('keeps Main Home hidden while the profile is null', () => {
+  it('renders canonical engineering content with no profile-selection UI', () => {
     const element = render();
-    expect(element.querySelector('app-home-landing')).toBeNull();
-    expect(element.querySelector('app-explorer')).not.toBeNull();
-  });
-  it('switches back to Explorer without replaying Intro or retaining transient state', () => {
-    const state = TestBed.inject(UiState);
-    state.selectProfile('angular-engineer');
-    const element = render();
-    state.setMenuOpen(true);
-    state.setCursorMode('project');
-    const button = element.querySelector<HTMLButtonElement>('.profile-controls button');
-    expect(button?.type).toBe('button');
-    expect(button?.tabIndex).toBe(0);
-    button?.click();
-    TestBed.tick();
-    expect(state.selectedProfile()).toBeNull();
-    expect(state.introCompleted()).toBe(true);
-    expect(state.menuOpen()).toBe(false);
-    expect(state.cursorMode()).toBe('default');
-    expect(element.querySelector('app-explorer')).not.toBeNull();
-    expect(element.querySelector('app-intro')).toBeNull();
+    expect(element.querySelector('app-home-landing')).not.toBeNull();
+    expect(element.querySelector('app-intro,app-explorer')).toBeNull();
+    expect(element.querySelectorAll('h1')).toHaveLength(1);
+    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Aditya Kirtane');
+    expect(element.textContent).toContain(HOME_CONTENT.eyebrow);
+    expect(element.textContent).toContain(HOME_CONTENT.headlineAccent);
+    expect(element.textContent).toContain(HOME_CONTENT.supportingText);
+    expect(element.querySelector('.hero-subtitle')?.textContent).toBe('Angular Developer');
+    expect(element.textContent).toContain(
+      '4+ years building scalable web, mobile, and product experiences.',
+    );
+    expect(element.textContent).not.toMatch(
+      /who.s exploring|switch profile|exploring as|product builder/i,
+    );
+    expect(element.querySelector('.profile-controls,[data-profile-panel]')).toBeNull();
   });
   it('uses existing routes, one approved portrait, and a deliberate PDF download', () => {
-    TestBed.inject(UiState).selectProfile('resume-viewer');
     const element = render();
     expect(element.querySelector('img')?.getAttribute('src')).toBe(HOME_ASSETS.portrait);
     expect(element.querySelector('img')?.getAttribute('alt')).toContain('head-and-chest');
@@ -114,14 +91,12 @@ describe('Main Home', () => {
     expect(element.querySelector('iframe,embed')).toBeNull();
   });
   it('shows reduced-motion content without invoking the entrance animation', () => {
-    TestBed.inject(UiState).selectProfile('product-thinker');
     const element = render();
     expect(element.querySelector('h1')).not.toBeNull();
     expect(revealHome).not.toHaveBeenCalled();
   });
   it('scopes entrance animation and releases it when destroyed', () => {
     motion = true;
-    TestBed.inject(UiState).selectProfile('full-stack-builder');
     const element = render();
     expect(revealHome).toHaveBeenCalledWith(element.querySelector('app-home-landing'));
     fixture.destroy();

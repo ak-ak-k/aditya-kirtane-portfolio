@@ -3,18 +3,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { NAVIGATION } from '../constants/portfolio';
-import { CursorMode, ExplorerProfile, PortfolioSection } from '../models/ui-state';
+import { CursorMode, PortfolioSection } from '../models/ui-state';
 
 @Service()
 export class UiState {
   private readonly router = inject(Router);
   private readonly route = signal<ActivatedRouteSnapshot | null>(null);
-  private readonly profile = signal<ExplorerProfile | null>(null);
   private readonly intro = signal(false);
   private readonly menu = signal(false);
   private readonly cursor = signal<CursorMode>('default');
 
-  readonly selectedProfile = this.profile.asReadonly();
   readonly introCompleted = this.intro.asReadonly();
   readonly menuOpen = this.menu.asReadonly();
   readonly cursorMode = this.cursor.asReadonly();
@@ -41,10 +39,6 @@ export class UiState {
         this.menu.set(false);
         this.cursor.set('default');
       });
-  }
-
-  selectProfile(profile: ExplorerProfile | null): void {
-    this.profile.set(profile);
   }
 
   completeIntro(): void {

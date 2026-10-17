@@ -2,7 +2,7 @@ import { PortfolioSection, PortfolioSectionConfig } from '../models/ui-state';
 
 export const PORTFOLIO = {
   name: 'Aditya Kirtane',
-  headline: 'Angular Developer • Product Builder',
+  headline: 'Angular Developer',
   projectDetailTitle: 'Project details',
 } as const;
 

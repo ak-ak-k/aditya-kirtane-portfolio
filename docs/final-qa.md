@@ -1,5 +1,7 @@
 # Final production QA — Step 12
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 **Recommendation: READY for deployment.** The final roadmap step is complete.
 The approved design, content, routing, Signals state, and scoped motion architecture
 are preserved. No hosting deployment, dependency, video, persistence, or new feature

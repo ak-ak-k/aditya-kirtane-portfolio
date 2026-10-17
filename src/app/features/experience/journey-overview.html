@@ -1,0 +1,98 @@
+<aside class="journey-overview" aria-labelledby="journey-title" data-journey>
+  <header class="journey-heading" data-journey-heading>
+    <p class="eyebrow">Journey overview</p>
+    <h2 id="journey-title" class="journey-title">
+      From Ideas <span>to <em>Impact</em></span>
+    </h2>
+    <p class="text-body text-muted">
+      A journey of continuous learning and meaningful products — each role shaping a stronger, more
+      versatile developer.
+    </p>
+  </header>
+  <div class="journey-visual" aria-hidden="true">
+    <svg
+      class="journey-landscape"
+      viewBox="0 0 600 600"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+      data-journey-landscape
+    >
+      <defs>
+        <radialGradient id="journey-halo">
+          <stop stop-color="var(--color-accent)" stop-opacity=".32" />
+          <stop offset="1" stop-color="var(--color-accent)" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="journey-ridge" x2="0" y2="1">
+          <stop stop-color="var(--color-accent-dark)" stop-opacity=".4" />
+          <stop offset="1" stop-color="var(--color-bg)" />
+        </linearGradient>
+        <linearGradient id="journey-mist" x2="0" y2="1">
+          <stop stop-color="var(--color-accent)" stop-opacity="0" />
+          <stop offset=".5" stop-color="var(--color-accent)" stop-opacity=".13" />
+          <stop offset="1" stop-color="var(--color-accent)" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="350" cy="145" rx="230" ry="220" fill="url(#journey-halo)" />
+      <circle cx="390" cy="90" r="36" fill="var(--color-accent-dark)" opacity=".25" />
+      <path
+        d="M0 310 85 210 155 270 310 100 415 250 490 190 600 310V600H0Z"
+        fill="url(#journey-ridge)"
+      />
+      <path d="m155 270 155-170 105 150-105-120Z" fill="var(--color-accent)" opacity=".12" />
+      <path d="M0 410 125 280 235 365 405 230 510 370 600 310V600H0Z" fill="var(--color-surface)" />
+      <path
+        d="M0 410 125 280 235 365 405 230 510 370"
+        fill="none"
+        stroke="var(--color-accent-dark)"
+        stroke-opacity=".55"
+      />
+      <ellipse cx="330" cy="380" rx="350" ry="130" fill="url(#journey-mist)" />
+      <path d="M0 525 100 440 215 490 350 390 470 485 600 410V600H0Z" fill="var(--color-bg)" />
+    </svg>
+    <svg
+      class="journey-route"
+      viewBox="0 0 100 600"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        class="route-glow"
+        d="M50 565C80 540 80 520 50 500S20 340 50 300 80 140 50 100 20 60 50 30"
+      />
+      <path
+        class="route-stroke"
+        data-journey-path
+        pathLength="1"
+        d="M50 565C80 540 80 520 50 500S20 340 50 300 80 140 50 100 20 60 50 30"
+      />
+    </svg>
+    <div class="journey-milestones">
+      @for (entry of roles(); track entry.id) {
+        <div class="journey-milestone" [attr.data-journey-milestone]="entry.id">
+          <span class="journey-node" data-journey-node></span>
+          <div class="journey-caption" data-journey-caption>
+            <p class="journey-date text-meta">
+              {{ entry.startDate.label }} – {{ entry.endDate?.label ?? 'Present' }}
+            </p>
+            <p class="journey-company">
+              <span class="journey-initials text-meta">{{ entry.initials }}</span
+              ><strong>{{ entry.company }}</strong>
+            </p>
+            <ul class="journey-callouts">
+              @for (highlight of entry.highlights; track highlight.text) {
+                @if (highlight.journeyLabel) {
+                  <li>{{ highlight.journeyLabel }}</li>
+                }
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="journey-editorial text-label">
+      <span>Build</span><span>Learn</span><span>Grow</span>
+    </div>
+  </div>
+</aside>

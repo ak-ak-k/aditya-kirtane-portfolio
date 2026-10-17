@@ -1,5 +1,7 @@
 # Who's Exploring — Step 4
 
+> Archived Step 4 design: the selector and its production code were removed on 16 October 2026. Current startup is **Intro → Home**. This document preserves historical implementation/verification notes; see [home-cleanup.md](home-cleanup.md).
+
 Step 4 implements profile selection. Its original temporary handoff is now replaced
 by [Step 5's Main Home and profile switching](home.md). The approved foundation,
 design system, cinematic intro, and selection implementation remain in place.

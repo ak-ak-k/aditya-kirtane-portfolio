@@ -6,7 +6,7 @@ FINAL DIRECTION
 - Use the sunglasses + white/red graphic T-shirt photo.
 - Upper-body/head/chest crops only. Do not show pants or lower body.
 - No videos.
-- Portfolio screens: Loading, Who's Exploring, About, Experience, Skills, Projects, Contact.
+- Portfolio screens: Loading, Home, About, Experience, Skills, Projects, Contact.
 
 FOLDERS
 branding/      AK logo mark, wordmark, favicon variants

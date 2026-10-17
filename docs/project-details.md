@@ -162,7 +162,7 @@ and current detail hero alone receive priority loading.
 
 Desktop and mobile screenshots of the case studies and showcase were inspected,
 including the short identity-only entries. Production Home/About regression checks
-preserve profile state and avoid Intro replay. The Contact placeholder and development
+preserve Intro completion and avoid its replay. The Contact placeholder and development
 style-preview shell remain intact; the preview stays excluded from production.
 Browser tooling remains in the existing temporary Playwright/axe-core installation.
 The development server remains at `http://localhost:4300/projects/ready-salesman`.

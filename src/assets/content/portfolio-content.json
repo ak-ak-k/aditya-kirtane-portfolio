@@ -1,23 +1,17 @@
 {
   "brand": {
     "name": "Aditya Kirtane",
-    "headline": "Angular Developer \u2022 Product Builder",
+    "headline": "Angular Developer",
     "theme": "Cinematic dark black + neon red"
   },
   "screens": [
     "Loading / Intro",
-    "Who\u2019s Exploring?",
+    "Main Home",
     "The Full Story",
     "Top Moments",
     "My Skill Universe",
     "AK Originals",
     "Let\u2019s Build Something Great"
-  ],
-  "profiles": [
-    "Angular Engineer",
-    "Full Stack Builder",
-    "Product Thinker",
-    "Resume Viewer"
   ],
   "projects": [
     {

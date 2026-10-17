@@ -1,81 +1,92 @@
-<section class="career-header cinematic-bg bg-red-glow" aria-labelledby="career-title">
-  <div class="section-header" data-career-heading>
-    <p class="eyebrow">Experience</p>
-    <h1 id="career-title" class="text-display white-red" tabindex="-1">Top <span>moments</span></h1>
-    <p class="text-body-lg text-muted">{{ intro }}</p>
-  </div>
-</section>
+<div class="experience-composition">
+  <div class="career-story">
+    <section class="career-header cinematic-bg bg-red-glow" aria-labelledby="career-title">
+      <div class="section-header" data-career-heading>
+        <p class="eyebrow">Experience</p>
+        <h1 id="career-title" class="text-display white-red" tabindex="-1">
+          Top <span>moments</span>
+        </h1>
+        <p class="text-body-lg text-muted">{{ intro }}</p>
+      </div>
+    </section>
 
-<ol class="career-timeline" role="list" aria-label="Professional experience, most recent first">
-  @for (entry of roles; track entry.id; let last = $last) {
-    <li class="timeline-entry" [attr.data-career-entry]="entry.id">
-      @if (!last) {
-        <span class="timeline-line" data-career-line aria-hidden="true"></span>
-      }
-      <span class="timeline-node" data-career-node aria-hidden="true"></span>
-      <article
-        class="card career-card"
-        data-career-card
-        [attr.aria-labelledby]="entry.id + '-company'"
-      >
-        <header class="role-header">
-          <div class="company-identity">
-            <span class="company-initials text-meta" aria-hidden="true">{{ entry.initials }}</span>
-            <span class="career-index text-meta text-muted" aria-hidden="true">{{
-              entry.sequenceNumber
-            }}</span>
-          </div>
-          <h2 class="text-heading-3" [id]="entry.id + '-company'">
-            {{ entry.company }}<span class="career-role text-body-lg">{{ entry.role }}</span>
-          </h2>
-          <p class="career-dates text-meta text-muted">
-            <time [attr.datetime]="entry.startDate.value">{{ entry.startDate.label }}</time>
-            <span aria-hidden="true"> — </span><span class="sr-only"> to </span>
-            @if (entry.endDate; as end) {
-              <time [attr.datetime]="end.value">{{ end.label }}</time>
-            } @else {
-              <span>Present</span>
-            }
-          </p>
-        </header>
-        <p class="text-body text-muted">{{ entry.summary }}</p>
-        <ul class="career-highlights text-body-sm">
-          @for (highlight of entry.highlights; track highlight.text) {
-            <li>{{ highlight.text }}</li>
+    <ol class="career-timeline" role="list" aria-label="Professional experience, most recent first">
+      @for (entry of roles; track entry.id; let last = $last) {
+        <li class="timeline-entry" [attr.data-career-entry]="entry.id">
+          @if (!last) {
+            <span class="timeline-line" data-career-line aria-hidden="true"></span>
           }
-        </ul>
-        @if (entry.metrics.length) {
-          <dl class="career-metrics">
-            @for (metric of entry.metrics; track metric.label) {
-              <div>
-                <dt class="text-body-sm text-muted">{{ metric.label }}</dt>
-                <dd class="text-heading-3 text-accent">{{ metric.value }}</dd>
+          <span class="timeline-node" data-career-node aria-hidden="true"></span>
+          <article
+            class="card career-card"
+            data-career-card
+            [attr.aria-labelledby]="entry.id + '-company'"
+          >
+            <header class="role-header">
+              <div class="company-identity">
+                <span class="company-initials text-meta" aria-hidden="true">{{
+                  entry.initials
+                }}</span>
+                <span class="career-index text-meta text-muted" aria-hidden="true">{{
+                  entry.sequenceNumber
+                }}</span>
               </div>
-            }
-          </dl>
-        }
-        <ul class="cluster career-tags" [attr.aria-label]="entry.company + ' technologies'">
-          @for (technology of entry.technologies; track technology) {
-            <li class="badge badge--tech">{{ technology }}</li>
-          }
-        </ul>
-        @if (entry.projects.length) {
-          <div class="career-products">
-            <h3 class="text-label text-muted">Products & platforms</h3>
-            <ul class="cluster career-tags">
-              @for (project of entry.projects; track project) {
-                <li class="text-body-sm">{{ project }}</li>
+              <h2 class="text-heading-3" [id]="entry.id + '-company'">
+                {{ entry.company }}<span class="career-role text-body-lg">{{ entry.role }}</span>
+              </h2>
+              <p class="career-dates text-meta text-muted">
+                <time [attr.datetime]="entry.startDate.value">{{ entry.startDate.label }}</time>
+                <span aria-hidden="true"> — </span><span class="sr-only"> to </span>
+                @if (entry.endDate; as end) {
+                  <time [attr.datetime]="end.value">{{ end.label }}</time>
+                } @else {
+                  <span>Present</span>
+                }
+              </p>
+            </header>
+            <p class="text-body text-muted">{{ entry.summary }}</p>
+            <ul class="career-highlights text-body-sm">
+              @for (highlight of entry.highlights; track highlight.text) {
+                <li>{{ highlight.text }}</li>
               }
             </ul>
-          </div>
-        }
-      </article>
-    </li>
-  }
-</ol>
+            @if (entry.metrics.length) {
+              <dl class="career-metrics">
+                @for (metric of entry.metrics; track metric.label) {
+                  <div>
+                    <dt class="text-body-sm text-muted">{{ metric.label }}</dt>
+                    <dd class="text-heading-3 text-accent">{{ metric.value }}</dd>
+                  </div>
+                }
+              </dl>
+            }
+            <ul class="cluster career-tags" [attr.aria-label]="entry.company + ' technologies'">
+              @for (technology of entry.technologies; track technology) {
+                <li class="badge badge--tech">{{ technology }}</li>
+              }
+            </ul>
+            @if (entry.projects.length) {
+              <div class="career-products">
+                <h3 class="text-label text-muted">Products & platforms</h3>
+                <ul class="cluster career-tags">
+                  @for (project of entry.projects; track project) {
+                    <li class="text-body-sm">{{ project }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </article>
+        </li>
+      }
+    </ol>
 
-<section class="career-summary" aria-labelledby="career-summary-title">
-  <p class="eyebrow">The journey continues</p>
-  <h2 id="career-summary-title" class="text-heading-3">Broader problems. Stronger foundations.</h2>
-  <p class="text-body-lg text-muted content-measure">{{ summary }}</p>
-</section>
+    <section class="career-summary" aria-labelledby="career-summary-title">
+      <p class="eyebrow">The journey continues</p>
+      <h2 id="career-summary-title" class="text-heading-3">
+        Broader problems. Stronger foundations.
+      </h2>
+      <p class="text-body-lg text-muted content-measure">{{ summary }}</p>
+    </section>
+  </div>
+  <app-journey-overview [roles]="roles" />
+</div>

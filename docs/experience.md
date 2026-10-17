@@ -1,5 +1,7 @@
 # Top moments — Step 7
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 Step 7 replaces only the lazy `/experience` placeholder. The approved Home, About,
 Intro, Explorer, navbar, cursor, Signals state, route definitions, motion helper,
 design system, dependencies, and supplied assets are preserved. Step 8 now adds
@@ -61,8 +63,8 @@ optional metric definition list, 3–6 technology tags, and optional product lab
 A final career summary closes the page. Cards are informational and have no fake
 links, buttons, hover lift, or tab stops.
 
-At 75rem and above, cards alternate left/right around a central vertical spine.
-Below that, the list becomes a single column with a left-hand spine. The spine is
+At 75rem and above, a 46:54 grid pairs a single left-hand timeline with the
+Journey Overview. Below that, the two sections stack. The spine is
 vertical in both layouts, so its transform uses scaleY throughout. Mobile reduces
 card/header padding; dates, technologies, products, and metrics wrap naturally.
 The current design-system tokens supply colors, borders, spacing, typography,
@@ -73,7 +75,8 @@ cards, badges, and the static header glow.
 The heading fades/rises for 0.65 seconds. Each role owns one ScrollTrigger timeline
 with `start: 'top 82%'` and `once: true`: the node appears, the card fades/rises
 with a subtle scale settle, and the outgoing spine segment draws from its top.
-Three triggers and two segments are created. There is no pinning, scrub, scroll
+Three card triggers and two segments are created, plus one once-only Journey
+Overview trigger for its heading, landscape, path, nodes, and captions. There is no pinning, scrub, scroll
 hijacking, perpetual animation, hover animation, or global trigger cleanup.
 
 `afterNextRender` starts the existing `createMotionContext` helper, scoped to the

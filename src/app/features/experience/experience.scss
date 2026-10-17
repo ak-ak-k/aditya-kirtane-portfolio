@@ -4,6 +4,7 @@
 .career-header {
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border-radius: var(--radius-lg);
+  padding-inline: 0;
 }
 .career-header .section-header {
   margin-block-end: 0;
@@ -39,7 +40,7 @@
 }
 .timeline-line {
   position: absolute;
-  inset-inline-start: 0.4375rem;
+  inset-inline-start: 0.5rem;
   inset-block-start: 1.5rem;
   inset-block-end: -1.5rem;
   inline-size: 2px;
@@ -51,8 +52,8 @@
   position: absolute;
   inset-inline-start: 0;
   inset-block-start: 1.5rem;
-  inline-size: 1rem;
-  block-size: 1rem;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
   border: 2px solid var(--color-accent);
   border-radius: 50%;
   background: var(--color-bg);
@@ -63,6 +64,7 @@
   display: grid;
   gap: var(--space-5);
   min-inline-size: 0;
+  border-color: var(--color-border-accent);
 }
 .role-header {
   display: grid;
@@ -137,25 +139,6 @@
   padding-block: var(--space-6) var(--space-7);
   border-block-start: 1px solid var(--color-border-accent);
 }
-@media (min-width: 75rem) {
-  .timeline-entry {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 3rem minmax(0, 1fr);
-    padding-inline-start: 0;
-  }
-  .career-card {
-    grid-column: 1;
-  }
-  .timeline-entry:nth-child(even) .career-card {
-    grid-column: 3;
-  }
-  .timeline-node {
-    inset-inline-start: calc(50% - 0.5rem);
-  }
-  .timeline-line {
-    inset-inline-start: calc(50% - 1px);
-  }
-}
 @media (max-width: 47.99rem) {
   .career-header {
     padding-inline: 0;
@@ -178,5 +161,18 @@
   .timeline-node,
   .company-initials {
     border-color: CanvasText;
+  }
+}
+.experience-composition {
+  display: grid;
+  gap: var(--content-gap);
+  align-items: start;
+}
+.career-story {
+  min-inline-size: 0;
+}
+@media (min-width: 75rem) {
+  .experience-composition {
+    grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
   }
 }

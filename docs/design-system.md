@@ -1,15 +1,17 @@
 # Portfolio design system — Step 2
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 Step 2 defines the reusable visual language. Step 1 routing, standalone features,
 Signals state, and GSAP foundation remain in place. The approved primitives are now
-used by [Step 3's intro](intro.md), [Step 4's selector](explorer.md), and
+used by [Step 3's intro](intro.md),
 [Step 5's Home/navbar/cursor](home.md), and [Step 6's About page](about.md).
 About adds scoped scroll reveals; Step 11 now adds scoped global
 [route transitions](route-transitions.md) without changing the primitives.
 
 ## Visual direction
 
-Aditya Kirtane — Angular Developer • Product Builder. Near-black, restrained neon red,
+Aditya Kirtane — Angular Developer. Near-black, restrained neon red,
 large condensed type, dark surfaces, and optional static atmosphere. The intended balance
 is 70% clean professional UI and 30% cinematic treatment. Repeated gradient surfaces,
 gaming motifs, and streaming-service imitation are avoided.
@@ -23,7 +25,8 @@ adds typography/layout tokens. Existing colors are referenced with `var()`, not 
 into Sass variables or component styles. The success color is the only new literal
 color. Derived surfaces, hover color, and border/glow strengths use `color-mix()`.
 
-The supplied JSON remains the original asset-pack reference. It is not imported by
+The supplied JSON remains a source content reference, aligned with the final headline
+and screen list by the startup cleanup. It is not imported by
 the app and is not a second live token source. Update primitive brand values in the
 supplied CSS; update semantic/size rules in `_tokens.scss`. Preview color annotations
 describe the live tokens and do not control styling.

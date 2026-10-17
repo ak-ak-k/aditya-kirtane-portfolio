@@ -25,7 +25,6 @@ describe('Portfolio routing', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: appConfig.providers });
     TestBed.inject(UiState).completeIntro();
-    TestBed.inject(UiState).selectProfile('angular-engineer');
   });
 
   it.each([
@@ -48,6 +47,7 @@ describe('Portfolio routing', () => {
     expect(harness.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe(heading);
     expect(state.activeSection()).toBe(section);
     expect(TestBed.inject(Title).getTitle()).toBe(title);
+    expect(harness.routeNativeElement?.textContent).not.toMatch(/product builder/i);
   });
 
   it('updates the signal input when a project slug changes on the reused component', async () => {
@@ -74,6 +74,7 @@ describe('Portfolio routing', () => {
       expect(harness.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe(
         project.name,
       );
+      expect(harness.routeNativeElement?.textContent).not.toMatch(/product builder/i);
       expect(TestBed.inject(Title).getTitle()).toBe(`${project.name} | Aditya Kirtane`);
       expect(TestBed.inject(UiState).activeSection()).toBe('projects');
       expect(TestBed.inject(UiState).selectedProject()).toBe(project.slug);

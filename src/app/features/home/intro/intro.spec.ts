@@ -101,6 +101,7 @@ describe('Home introduction', () => {
     expect(element.querySelector('h1')?.getAttribute('aria-label')).toBe('Aditya Kirtane');
     expect(element.querySelector<HTMLButtonElement>('.intro-skip')?.type).toBe('button');
     expect(element.querySelector('app-intro')).not.toBeNull();
+    expect(element.querySelector('.intro-subtitle')?.textContent).toBe('Angular Developer');
     expect(element.querySelector('app-explorer')).toBeNull();
   });
 
@@ -113,11 +114,11 @@ describe('Home introduction', () => {
     expect(vi.mocked(effects.waitForCriticalImages).mock.calls[0]?.[0]).toHaveLength(2);
   });
 
-  it('shows Explorer when UiState already reports intro completion', () => {
+  it('shows Home directly when UiState already reports intro completion', () => {
     TestBed.inject(UiState).completeIntro();
     const element = render();
     expect(element.querySelector('app-intro')).toBeNull();
-    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Who’s Exploring?');
+    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Aditya Kirtane');
     expect(effects.playIntroReveal).not.toHaveBeenCalled();
   });
 
@@ -137,7 +138,7 @@ describe('Home introduction', () => {
     TestBed.tick();
     expect(state.introCompleted()).toBe(true);
     expect(complete).toHaveBeenCalledTimes(1);
-    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Who’s Exploring?');
+    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Aditya Kirtane');
   });
 
   it('waits for the cinematic reveal even when assets are already ready', async () => {
@@ -149,6 +150,9 @@ describe('Home introduction', () => {
     expect(TestBed.inject(UiState).introCompleted()).toBe(false);
     control.exit?.();
     expect(TestBed.inject(UiState).introCompleted()).toBe(true);
+    TestBed.tick();
+    expect(fixture.nativeElement.querySelector('app-home-landing')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('app-explorer')).toBeNull();
   });
 
   it('waits for real image readiness after the reveal finishes', async () => {

@@ -22,27 +22,23 @@ describe('UiState', () => {
     TestBed.configureTestingModule({ providers: appConfig.providers });
   });
 
-  it('starts without a profile or completed intro, with native cursor behavior', () => {
+  it('starts without a completed intro, with native cursor behavior', () => {
     const state = TestBed.inject(UiState);
-    expect(state.selectedProfile()).toBeNull();
     expect(state.introCompleted()).toBe(false);
     expect(state.menuOpen()).toBe(false);
     expect(state.cursorMode()).toBe('default');
   });
 
-  it('preserves exploration choices and resets transient UI on navigation', async () => {
+  it('preserves intro completion and resets transient UI on navigation', async () => {
     const state = TestBed.inject(UiState);
     state.completeIntro();
     const harness = await RouterTestingHarness.create('/');
-    state.selectProfile('angular-engineer');
-    state.completeIntro();
     state.toggleMenu();
     state.setCursorMode('project');
     expect(state.menuOpen()).toBe(true);
 
     await harness.navigateByUrl('/projects');
 
-    expect(state.selectedProfile()).toBe('angular-engineer');
     expect(state.introCompleted()).toBe(true);
     expect(state.menuOpen()).toBe(false);
     expect(state.cursorMode()).toBe('default');

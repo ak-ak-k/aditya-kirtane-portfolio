@@ -8,7 +8,7 @@
 >
 <app-page-transition />
 
-@if (!introActive() && !explorerActive()) {
+@if (!introActive()) {
   <header class="shell-header">
     <app-navbar />
   </header>
@@ -20,7 +20,6 @@
   id="main-content"
   class="shell-content"
   [class.shell-content--intro]="introActive()"
-  [class.shell-content--explorer]="explorerActive()"
   [class.shell-content--home]="landingActive()"
   tabindex="-1"
 >

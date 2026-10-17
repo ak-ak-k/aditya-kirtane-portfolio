@@ -1,5 +1,7 @@
 # Contact — Step 11
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 The real lazy `/contact` page replaces the final feature placeholder. The approved
 routes, Home/Intro/Explorer flow, About, Experience, Skills, Projects, case-study
 data, navbar, cursor, state, global design system, dependencies, and assets are

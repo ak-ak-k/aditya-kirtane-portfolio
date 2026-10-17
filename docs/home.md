@@ -1,38 +1,19 @@
 # Main Home, navbar, and cursor — Step 5
 
-Step 5 replaces the temporary selected-profile handoff with the real Home portal.
-Intro, Explorer, standalone/lazy routing, Signals state, design tokens, and supplied
-assets remain in place. [Step 6](about.md) now supplies the real About page.
-Step 7 now supplies the real [Experience timeline](experience.md), and Step 8 adds
-[My Skill Universe](skills.md). The [showcase](projects.md) and
-[case studies](project-details.md) now supply Projects. Step 11 supplies the real
-[Contact](contact.md) page and [global route transitions](route-transitions.md).
-Home internal motion/state remain unchanged. Final production QA is recorded in [final-qa.md](final-qa.md).
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
 
-## Main Home and profile content
+The canonical Home follows Intro directly. It keeps the approved hero, portrait,
+CTAs, launcher navigation, navbar, cursor, tokens, and scoped entrance.
 
-Home still has three states: Intro until `introCompleted()`, Explorer while the
-completed profile is null, and `HomeLanding` after selection. No route is added.
-The landing component receives a required typed profile signal input and resolves
-`HOME_PROFILE_CONTENT` with `computed()`.
+## Current Home content
 
-| Profile            | Eyebrow               | Emphasis                                                 | Supporting copy                                                                     |
-| ------------------ | --------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| Angular Engineer   | Angular engineering   | Scalable frontend experiences built with Angular.        | Angular, TypeScript, RxJS, Signals, performance, and maintainable architecture.     |
-| Full Stack Builder | End-to-end builder    | From interface to APIs and data.                         | Angular on the frontend. Node.js, APIs, realtime features, and databases behind it. |
-| Product Thinker    | Product thinking      | Turning real problems into useful digital products.      | Balancing engineering quality, usability, and real-world product impact.            |
-| Resume Viewer      | Professional overview | 4+ years of products, teams, and engineering experience. | Explore experience, skills, projects, and measurable impact.                        |
-
-The shared identity stays **Aditya Kirtane — Angular Developer • Product Builder**.
-All profiles share the statement **4+ years building scalable web, mobile, and product
-experiences**, one name H1, one portrait, Projects/About CTAs, a deliberate resume link,
-and compact navigation launchers. A subtle “Exploring as” line identifies the current
-perspective. No profile creates a different site or duplicates global state.
-
-Launchers link with `RouterLink` to `/about`, `/experience`, `/skills`, and `/projects`.
-A fifth launcher downloads the verified resume. Contact is available through Let’s
-Connect and Let’s talk. These are destinations only; no later feature content, project
-screenshots, company logos, metrics, or project catalog is introduced.
+Home renders Intro while `introCompleted()` is false and `HomeLanding` otherwise.
+The landing component uses `HOME_CONTENT`; it has no profile input or derived state.
+Identity is **Aditya Kirtane — Angular Developer**. Its eyebrow is Angular engineering,
+with the existing 4+ years supporting line and Angular frontend emphasis.
+Explore Projects, About Me, and Download Resume retain their routes and order.
+The selector, selection labels, and switch action have been removed without replacement UI.
+Completion remains in memory across navigation; refresh replays Intro.
 
 ## Hero composition and assets
 
@@ -59,13 +40,13 @@ treatment does not fabricate a pose or modify the asset.
 
 Both supplied PDFs (`Aditya_Resume.pdf` and `aditya-kirtane-resume.pdf`) are present
 and have the same SHA-256 hash. The lowercase named file is the single live path.
-Hero/launcher download anchors use a real `href` and `download` filename. Selecting
-Resume Viewer never triggers a request or download. No fake download handler exists.
+Hero/launcher download anchors use a real `href` and `download` filename.
+The résumé is never automatically requested or downloaded. No fake handler exists.
 
 ## Home entrance and scroll
 
 `HOME_LANDING_EFFECTS` exposes the GSAP boundary to TestBed, following the existing
-Intro/Explorer pattern. `createMotionContext()` scopes the entrance and reverts it on
+Intro pattern. `createMotionContext()` scopes the entrance and reverts it on
 destroy or a reduced-motion change. The sequence lasts approximately 1.39 seconds:
 
 - Halo fades from 0 s over 0.6 s.
@@ -78,14 +59,13 @@ Only opacity/transforms animate, with restrained easing and no letter splitting,
 bounce, ScrollTrigger use, or Flip use. Base styles remain completely visible.
 
 Internal Home views share a URL, so route scroll restoration cannot handle them.
-The shell scrolls instantly to the top only when switching between Intro, Explorer,
-and Landing, then focuses the new H1. This avoids carrying the tall mobile selector’s
-scroll position into Home. Normal route scroll restoration remains in place.
+The shell scrolls instantly to the top when Intro hands off to Home, then focuses
+the Home H1. Normal route scroll restoration remains in place.
 
 ## Navbar and mobile navigation
 
 The shell shows the production navbar on Main Home and all normal routes, while
-keeping it hidden during Intro/Explorer. The development preview retains its normal
+keeping it hidden during Intro. The development preview retains its normal
 shell behavior. The header is sticky at the top, with an opaque-enough translucent
 dark base and subtle border. No backdrop filter is required.
 
@@ -113,13 +93,6 @@ focuses the destination H1. Browser navigation therefore cannot retain stale sta
 Resizing to desktop and destroying the navbar also clear mobile menu state. The
 media-query listener is removed on destroy.
 
-## Switch Profile
-
-The hero uses a native Switch Profile button. It calls the existing
-`selectProfile(null)` API, clears transient menu/cursor state, and preserves
-`introCompleted()`. Explorer returns at the top with H1 focus; Intro never replays.
-There is no new profile store, persistence, route, or redundant clear method.
-
 ## Custom cursor
 
 Cursor is a layout enhancement available only with:
@@ -130,7 +103,7 @@ and (prefers-reduced-motion: no-preference)
 ```
 
 Touch-capable environments are additionally excluded. The enhancement is mounted
-with the normal shell, so Intro/Explorer retain their approved behavior. Native
+with the normal shell, so Intro retains its approved behavior. Native
 cursors are always preserved, including initialization failure. There is no
 `cursor: none` rule.
 
@@ -162,9 +135,9 @@ Navbar active state has both underline and color. Native text selection remains 
 
 Reduced motion leaves Home fully visible, skips the hero entrance, disables cursor
 tracking, and removes launcher lift through existing global rules. Navbar, mobile
-menu, downloads, route navigation, and profile switching remain functional.
+menu, downloads, route navigation, remain functional.
 
-## Files created
+## Historical Step 5 files created
 
 - `src/app/features/home/home-landing/home-landing.ts`, `.html`, `.scss`
 - `src/app/features/home/home-landing/home-landing.config.ts`, `home-landing-animation.ts`, `home-landing-effects.ts`, `home-landing.spec.ts`
@@ -172,7 +145,7 @@ menu, downloads, route navigation, and profile switching remain functional.
 - `src/app/layout/cursor/cursor.ts`, `cursor.scss`, `cursor-effects.ts`, `cursor-tracking.ts`, `cursor.spec.ts`, `cursor-tracking.spec.ts`
 - `docs/home.md`
 
-## Files modified
+## Historical Step 5 files modified
 
 - `src/app/features/home/home.ts`, `home.html`
 - `src/app/layout/navbar/navbar.ts`, `navbar.scss`
@@ -185,7 +158,7 @@ UiState implementation, Intro/Explorer implementation, shared motion helpers,
 route definitions, later feature placeholders, design primitives, assets, and
 dependency manifests are preserved. No packages are added.
 
-## Verification
+## Historical Step 5 verification
 
 ```bash
 npm run build
@@ -231,7 +204,7 @@ six Home and four open-menu audits, with zero violations or runtime/image warnin
 Together with the 42 production audits, the final checks cover 52 AXE audits.
 The running development preview remains available at `http://localhost:4300/`.
 
-## Step 6 integration
+## Historical integration notes (before startup cleanup)
 
 Review `http://localhost:4300/`: choose a profile after Intro or Skip, then inspect
 the Home composition, four copy variations, mobile menu, subtle desktop cursor,

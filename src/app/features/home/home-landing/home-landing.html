@@ -2,7 +2,7 @@
   <span class="bg-layer bg-halo" data-home-halo aria-hidden="true"></span>
   <div class="page-container landing-hero">
     <div class="hero-copy">
-      <p class="eyebrow" data-home-copy>{{ content().eyebrow }}</p>
+      <p class="eyebrow" data-home-copy>{{ content.eyebrow }}</p>
       <h1 id="home-title" class="text-display-xl white-red" tabindex="-1" data-home-copy>
         Aditya <span>Kirtane</span>
       </h1>
@@ -11,8 +11,8 @@
         4+ years building scalable web, mobile, and product experiences.
       </p>
       <div class="hero-perspective" data-home-copy>
-        <p class="text-body-lg">{{ content().headlineAccent }}</p>
-        <p class="text-body-sm text-muted">{{ content().supportingText }}</p>
+        <p class="text-body-lg">{{ content.headlineAccent }}</p>
+        <p class="text-body-sm text-muted">{{ content.supportingText }}</p>
       </div>
       <div class="hero-actions" data-home-actions>
         <div class="cluster">
@@ -29,14 +29,6 @@
           ><span class="icon icon--download" aria-hidden="true"></span>Download Resume
           <span class="sr-only">(PDF)</span></a
         >
-        <div class="profile-controls">
-          <p class="text-meta text-muted">
-            Exploring as <strong>{{ profileTitle() }}</strong>
-          </p>
-          <button type="button" class="btn btn--ghost" (click)="switchProfile()">
-            Switch Profile
-          </button>
-        </div>
       </div>
     </div>
     <div class="hero-visual" data-home-portrait>

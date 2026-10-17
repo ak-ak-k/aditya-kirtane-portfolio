@@ -1,6 +1,6 @@
 # Aditya Kirtane — Portfolio
 
-A dark, red-accented Angular portfolio for an Angular Developer and Product Builder.
+A dark, red-accented Angular portfolio for an Angular Developer.
 Built with Angular 22 (lockfile: 22.2.2), standalone components, Signals, strict
 TypeScript/templates, lazy routes, SCSS tokens, and scoped GSAP motion.
 
@@ -26,9 +26,9 @@ npm run test:ci
 
 ## Experience and routes
 
-Home opens with a skippable intro, then four profile choices and a profile-aware
-portal. Selection lasts for the app instance. Switch Profile returns to the selector;
-refreshing resets selection and replays Intro. No persistence is used.
+Home opens with a skippable intro, then goes directly to the canonical Home.
+Completion lasts for the app instance, so returning Home skips Intro; refreshing
+replays it. The profile-selector concept has been removed. No persistence is used.
 
 Routes: `/`, `/about`, `/experience`, `/skills`, `/projects`, `/contact`, and:
 
@@ -72,9 +72,11 @@ Use HTTPS. Cache hashed JS/CSS with a long immutable lifetime and revalidate `in
 Keep unhashed asset caching modest or version changed assets. Enable Brotli/gzip at the
 host. Choose the deployment origin before adding absolute canonical/social-share URLs.
 
-See [final QA and deployment readiness](docs/final-qa.md) for current results and limits.
+See [the final startup cleanup](docs/home-cleanup.md) for the current flow and checks.
+Earlier full QA and deployment requirements are recorded in
+[final QA and deployment readiness](docs/final-qa.md).
 Detailed guides cover [foundation](docs/foundation.md), [design system](docs/design-system.md),
-[intro](docs/intro.md), [profiles](docs/explorer.md), [Home](docs/home.md), [About](docs/about.md),
+[intro](docs/intro.md), [Home](docs/home.md), [About](docs/about.md),
 [experience](docs/experience.md), [skills](docs/skills.md), [projects](docs/projects.md),
 [case studies](docs/project-details.md), [Contact](docs/contact.md), and
 [route transitions](docs/route-transitions.md).

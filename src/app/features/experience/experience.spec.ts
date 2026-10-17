@@ -114,9 +114,31 @@ describe('Top moments', () => {
       'R',
       'TC',
     ]);
-    expect(el.querySelector('img,svg,canvas,video')).toBeNull();
+    expect(el.querySelector('img,canvas,video')).toBeNull();
     expect(el.innerHTML).not.toContain('placeholder.svg');
     expect(el.innerHTML).not.toContain('references/');
+  });
+  it('derives decorative journey milestones and callouts from the verified career roles', () => {
+    const el = render();
+    expect(el.querySelector('#journey-title')?.textContent?.replace(/\s+/g, ' ').trim()).toBe(
+      'From Ideas to Impact',
+    );
+    expect(el.querySelector('.journey-visual')?.getAttribute('aria-hidden')).toBe('true');
+    expect(el.querySelectorAll('svg')).toHaveLength(2);
+    for (const svg of el.querySelectorAll('svg')) {
+      expect(svg.getAttribute('aria-hidden')).toBe('true');
+      expect(svg.getAttribute('focusable')).toBe('false');
+    }
+    for (const role of EXPERIENCE_ROLES as readonly CareerRole[]) {
+      const milestone = el.querySelector(`[data-journey-milestone="${role.id}"]`)!;
+      expect(milestone.textContent).toContain(role.company);
+      expect(milestone.textContent).toContain(role.startDate.label);
+      expect(milestone.textContent).toContain(role.endDate?.label ?? 'Present');
+      expect(Array.from(milestone.querySelectorAll('li'), (li) => li.textContent)).toEqual(
+        role.highlights.flatMap((h) => (h.journeyLabel ? [h.journeyLabel] : [])),
+      );
+    }
+    expect(el.textContent).not.toMatch(/Career Activity|heatmap|contribution streak/i);
   });
   it.each(EXPERIENCE_ROLES)(
     'renders the supported highlights and compact tags for $company',
@@ -157,6 +179,8 @@ describe('Top moments', () => {
     expect(el.querySelectorAll('[data-career-node]')).toHaveLength(3);
     expect(el.querySelectorAll('[data-career-line]')).toHaveLength(2);
     expect(el.querySelectorAll('[data-career-card]')).toHaveLength(3);
+    expect(el.querySelectorAll('[data-journey-node]')).toHaveLength(3);
+    expect(el.querySelector<SVGElement>('[data-journey-path]')?.style.strokeDashoffset).toBe('');
   });
   it('scopes animation setup and cleans it once on component destruction', () => {
     motion = true;

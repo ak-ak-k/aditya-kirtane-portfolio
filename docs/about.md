@@ -1,5 +1,7 @@
 # The full story — Step 6
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 Step 6 replaces only the existing `/about` placeholder. It preserves the approved
 Home/Intro/Explorer flow, lazy route definitions, Signals state, navbar, cursor,
 motion helper, design system, supplied assets, and dependencies. Step 7 now adds

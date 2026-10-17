@@ -53,8 +53,7 @@ export class PageTransition {
           this.reset();
           const destination = pathname(event.url);
           const specialHome =
-            (currentPath === '/' || destination === '/') &&
-            (!this.state.introCompleted() || !this.state.selectedProfile());
+            (currentPath === '/' || destination === '/') && !this.state.introCompleted();
           if (
             !hasNavigated ||
             !media.matches ||

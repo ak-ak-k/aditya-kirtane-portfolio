@@ -23,7 +23,7 @@ export class App {
   private readonly uiState = inject(UiState);
   private readonly router = inject(Router);
   private readonly mainContent = viewChild<ElementRef<HTMLElement>>('mainContent');
-  private lastHomeView: 'intro' | 'explorer' | 'landing' | undefined;
+  private lastHomeView: 'intro' | 'landing' | undefined;
   protected readonly routeActivated = signal<unknown>(null);
   protected focusMainContent(): void {
     this.mainContent()?.nativeElement.focus({ preventScroll: true });
@@ -36,11 +36,8 @@ export class App {
   protected readonly introActive = computed(
     () => this.homeActive() && !this.uiState.introCompleted(),
   );
-  protected readonly explorerActive = computed(
-    () => this.homeActive() && this.uiState.introCompleted() && !this.uiState.selectedProfile(),
-  );
   protected readonly landingActive = computed(
-    () => this.homeActive() && this.uiState.introCompleted() && !!this.uiState.selectedProfile(),
+    () => this.homeActive() && this.uiState.introCompleted(),
   );
 
   constructor() {
@@ -52,11 +49,9 @@ export class App {
       this.uiState.activeSection();
       this.uiState.selectedProject();
       this.introActive();
-      this.explorerActive();
-      this.uiState.selectedProfile();
 
       if (this.homeActive()) {
-        const view = this.introActive() ? 'intro' : this.explorerActive() ? 'explorer' : 'landing';
+        const view = this.introActive() ? 'intro' : 'landing';
         // Internal Home views share a URL, so router scroll restoration does not run.
         if (this.lastHomeView && this.lastHomeView !== view) {
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' });

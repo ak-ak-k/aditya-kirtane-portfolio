@@ -21,6 +21,7 @@ describe('App', () => {
   });
   afterAll(() => vi.unstubAllGlobals());
   beforeEach(async () => {
+    vi.mocked(window.scrollTo).mockClear();
     await TestBed.configureTestingModule({
       imports: [App],
       providers: appConfig.providers,
@@ -29,7 +30,6 @@ describe('App', () => {
 
   it('renders the shell and Main Home on a return visit', async () => {
     TestBed.inject(UiState).completeIntro();
-    TestBed.inject(UiState).selectProfile('angular-engineer');
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     await TestBed.inject(Router).navigateByUrl('/');
@@ -43,7 +43,7 @@ describe('App', () => {
     expect(document.activeElement).toBe(element.querySelector('h1'));
   });
 
-  it('gives the intro the full viewport and focuses Explorer after Skip', async () => {
+  it('gives Intro the viewport, then restores the navbar and focuses Home after Skip', async () => {
     const fixture = TestBed.createComponent(App);
     await TestBed.inject(Router).navigateByUrl('/');
     await fixture.whenStable();
@@ -52,27 +52,27 @@ describe('App', () => {
     expect(element.querySelector('main')?.classList.contains('shell-content--intro')).toBe(true);
     element.querySelector<HTMLButtonElement>('.intro-skip')?.click();
     await fixture.whenStable();
-    expect(element.querySelector('header.shell-header')).toBeNull();
-    expect(element.querySelector('main')?.classList.contains('shell-content--explorer')).toBe(true);
+    expect(element.querySelector('header.shell-header')).not.toBeNull();
+    expect(element.querySelector('main')?.classList.contains('shell-content--home')).toBe(true);
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'instant' });
-    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Who’s Exploring?');
+    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Aditya Kirtane');
     expect(document.activeElement).toBe(element.querySelector('h1'));
   });
 
-  it('restores the navbar and focuses Main Home after profile selection', async () => {
-    TestBed.inject(UiState).completeIntro();
+  it('restores the navbar and Home focus when Intro completes automatically', async () => {
     const fixture = TestBed.createComponent(App);
     await TestBed.inject(Router).navigateByUrl('/');
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
-    element
-      .querySelector<HTMLButtonElement>('[data-profile-panel="resume-viewer"] > button')
-      ?.click();
+    expect(element.querySelector('header.shell-header')).toBeNull();
+    TestBed.inject(UiState).completeIntro();
     await fixture.whenStable();
-    expect(element.querySelector('h1')?.textContent?.trim()).toBe('Aditya Kirtane');
-    expect(element.textContent).toContain('Professional overview');
+    expect(element.querySelector('app-home-landing')).not.toBeNull();
+    expect(element.querySelector('app-intro,app-explorer')).toBeNull();
     expect(element.querySelector('nav')?.getAttribute('aria-label')).toBe('Primary');
     expect(document.activeElement).toBe(element.querySelector('h1'));
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'instant' });
+    expect(element.querySelector('.route-transition.is-active')).toBeNull();
   });
 
   it('updates the active navigation link and focuses content after navigation', async () => {
@@ -87,7 +87,6 @@ describe('App', () => {
 
   it('preserves Contact and reused project destination focus with the decorative transition layer', async () => {
     TestBed.inject(UiState).completeIntro();
-    TestBed.inject(UiState).selectProfile('angular-engineer');
     const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
     for (const [url, title] of [

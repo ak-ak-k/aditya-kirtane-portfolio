@@ -1,9 +1,11 @@
 # Global route transitions — Step 11
 
+> Current production startup is **Intro → Home** (16 October 2026). Profile-selector/state references below describe the earlier implementation or its dated QA. See [home-cleanup.md](home-cleanup.md) for the replacement and current verification.
+
 The planned `layout/page-transition/` feature now supplies one decorative global
 transition for actual client-side portfolio navigation. It does not replace route
 definitions, feature entrance animations, state, focus, history, or scroll restoration.
-The real [Contact page](contact.md) is the other Step 11 feature. Step 12 is not started.
+The real [Contact page](contact.md) is the other Step 11 feature. Final QA is recorded in [final-qa.md](final-qa.md); the subsequent startup cleanup is recorded in [home-cleanup.md](home-cleanup.md).
 
 ## Ownership and router behavior
 
@@ -15,10 +17,9 @@ and safety timer. No new singleton service or state manager is needed.
 
 Eligible paths are `/`, `/about`, `/experience`, `/skills`, `/projects`,
 `/projects/:slug`, and `/contact`. First direct navigation is skipped. Same-path
-query/fragment changes and the development-only preview are skipped. Entering or
-leaving Home while its Intro/Explorer flow is active is skipped. Intro → Explorer →
-Main Home and Switch Profile change local state without Router navigation, so they
-never start this layer.
+query/fragment changes and the development-only preview are skipped. Entering or leaving Home while Intro is incomplete is skipped. Intro → Home
+is an internal same-route state change and never starts this layer. Once Intro
+is complete, ordinary Home navigation uses the existing transition behavior.
 
 NavigationStart resets old owned work, checks eligibility/motion preference, marks
 the layer active, resets the existing cursor mode to default, and loads the animator
@@ -95,7 +96,7 @@ and [contact.md](contact.md); README and preceding integration notes reflect Ste
 All prior working changes remain preserved. No app routing definition/provider,
 package, supplied asset, shared state, navbar, cursor, or global stylesheet is modified.
 
-## Verification
+## Historical Step 11 verification (before startup cleanup)
 
 Production build passed within unchanged budgets, without warnings: 280.39 kB
 initial (approximately 77.66 kB estimated transfer), 8.53 kB lazy Contact chunk,
