@@ -2,10 +2,17 @@
   display: block;
 }
 .projects-hero {
+  position: relative;
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border-radius: var(--radius-lg);
+  background: radial-gradient(
+    ellipse at 75% 100%,
+    color-mix(in srgb, var(--color-accent) 10%, transparent),
+    transparent 70%
+  );
 }
 .projects-hero .section-header {
+  position: relative;
   margin-block-end: 0;
 }
 .projects-hero h1 {
@@ -24,136 +31,40 @@
   inline-size: 2px;
   background: var(--color-focus);
 }
+.hero-ridge {
+  position: absolute;
+  inset: 20% 0 0 40%;
+  background: var(--color-accent-dark);
+  opacity: 0.1;
+  clip-path: polygon(0 100%, 35% 42%, 52% 72%, 77% 12%, 100% 80%, 100% 100%);
+  pointer-events: none;
+}
 .projects-count {
   margin-block-start: var(--space-5);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
-.artwork-note {
-  margin-block: var(--space-6) var(--space-4);
+.project-collection {
+  padding-block: var(--space-7);
+  border-block-start: 1px solid var(--color-border-accent);
+}
+.collection-heading {
+  display: grid;
+  gap: var(--space-3);
+  margin-block-end: var(--space-6);
+}
+.collection-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 .project-grid {
   display: grid;
   gap: var(--card-gap);
+  align-items: stretch;
 }
-.project-entry {
-  min-inline-size: 0;
-}
-.project-card {
-  display: flex;
-  flex-direction: column;
-  block-size: 100%;
-  padding: 0;
-  text-decoration: none;
-  overflow: clip;
-  transition:
-    transform var(--motion-fast) var(--ease-premium),
-    border-color var(--motion-fast) var(--ease-premium);
-}
-.project-artwork {
-  position: relative;
-  overflow: hidden;
-  background: var(--color-bg);
-  border-block-end: 1px solid var(--color-border);
-}
-.project-cover {
-  aspect-ratio: var(--cover-ratio, 2);
-  overflow: hidden;
-}
-// All six inspected sources have the same composition. Show x=0..940, y=0..470:
-// names/tags only. The repeated portrait begins at x=970 and is never visible.
-.cover-image {
-  display: block;
-  // Hide the baked index at source y=180..214; names begin below y=245.
-  mask: linear-gradient(transparent 24%, black 25.4%);
-  inline-size: 170.213%;
-  max-inline-size: none;
-  block-size: auto;
-  transform-origin: left top;
-  transition: transform var(--motion-fast) var(--ease-premium);
-}
-.project-artwork--identity {
-  --cover-ratio: 47 / 7;
-  padding-block-start: 4.5rem;
-}
-.project-artwork--identity img {
-  margin-block-start: -20.213%;
-}
-.artwork-label {
-  position: absolute;
-  inset-inline-end: var(--space-3);
-  inset-block-start: 1.25rem;
-  padding: 0.125rem 0.5rem;
-  background: var(--color-bg);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-}
-.project-body {
-  display: grid;
-  flex: 1;
-  gap: var(--space-4);
-  padding: var(--card-padding);
-}
-.project-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3);
-}
-.project-icon {
-  inline-size: 1.75rem;
-  block-size: 1.75rem;
-}
-.project-number {
-  position: absolute;
-  z-index: 1;
-  top: 1.25rem;
-  left: 1.25rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid;
-  border-radius: var(--radius-sm);
-  background: var(--color-bg);
-  color: var(--color-accent);
-  font: 700 clamp(1rem, 1.2vw, 1.3rem) / 1.2 var(--font-code);
-  pointer-events: none;
-}
-.project-heading {
-  display: grid;
-  gap: var(--space-2);
-}
-.project-highlights {
-  display: grid;
-  gap: var(--space-2);
-  padding-inline-start: 1.125rem;
-}
-.project-highlights li::marker {
-  color: var(--color-accent);
-}
-.project-tags {
-  list-style: none;
-  padding: 0;
-  --cluster-gap: var(--space-2);
-}
-.project-action {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  align-self: end;
-  padding-block-start: var(--space-3);
-  border-block-start: 1px solid var(--color-border);
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-  font-weight: 600;
-}
-.project-action .icon {
-  transition: transform var(--motion-fast) var(--ease-premium);
-}
-.project-action::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-}
-.project-card:has(.project-action:focus-visible) {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 4px;
+.artwork-note {
+  margin-block: 0 var(--space-6);
 }
 .projects-contact {
   display: flex;
@@ -171,44 +82,16 @@
   }
 }
 @media (min-width: 75rem) {
-  .project-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+  .project-grid--independent {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .project-entry {
-    grid-column: span 3;
-  }
-  .project-entry--lead {
-    grid-column: span 4;
-  }
-  .project-entry:nth-child(2) {
-    grid-column: span 2;
-  }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .project-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--color-accent);
-  }
-  .project-card:hover .cover-image {
-    transform: scale(1.035);
-  }
-  .project-card:hover .project-action .icon {
-    transform: translateX(3px);
+  .project-grid--professional {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 @media (max-width: 47.99rem) {
   .projects-hero {
     padding-inline: 0;
-  }
-  .project-body {
-    padding: var(--space-4);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .project-card,
-  .cover-image,
-  .project-action .icon {
-    transform: none !important;
   }
 }
 @media (forced-colors: active) {

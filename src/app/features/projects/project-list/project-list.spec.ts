@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { PROJECTS, findProject, ProjectSummary } from '../projects.config';
+import {
+  PROJECTS,
+  PORTFOLIO_PROJECT,
+  formatProjectIndex,
+  findProject,
+  ProjectSummary,
+} from '../projects.config';
 import type { ProjectList } from './project-list';
 
 let ListComponent: typeof import('./project-list').ProjectList;
@@ -57,29 +63,30 @@ describe('AK Originals showcase', () => {
     const el = render();
     expect(el.querySelectorAll('h1')).toHaveLength(1);
     expect(el.querySelector('h1')?.textContent?.trim()).toBe('AK Originals');
-    expect(el.querySelector('.eyebrow')?.textContent).toBe('Featured builds');
+    expect(el.querySelector('.projects-hero .eyebrow')?.textContent).toBe('Featured builds');
     expect(el.querySelector('app-route-placeholder')).toBeNull();
     expect(el.querySelector('.artwork-note')?.textContent).toContain(
-      'project artwork, not product screenshots',
+      'Cover artwork is labelled separately',
     );
     expect(el.querySelector('.projects-count')?.textContent).toContain(String(PROJECTS.length));
   });
   it('renders one decorative two-digit cover index per project in the unchanged catalog order', () => {
     const cards = Array.from(render().querySelectorAll('[data-project-entry]'));
-    expect(cards).toHaveLength(6);
+    expect(cards).toHaveLength(7);
     expect(
       cards.map((card) => [
-        card.querySelector('h2')?.textContent,
+        card.querySelector('h3')?.textContent,
         card.getAttribute('data-project-entry'),
         card.querySelector('.project-number')?.textContent,
       ]),
     ).toEqual([
       ['SlingSip', 'slingsip', '01'],
-      ['Ready Inventory', 'ready-inventory', '02'],
-      ['Ready Salesman', 'ready-salesman', '03'],
-      ['Customer Portal', 'customer-portal', '04'],
-      ['911Care', '911care', '05'],
-      ['CollabSpace', 'collabspace', '06'],
+      ['NexBuy', 'nexbuy', '02'],
+      ['CollabSpace', 'collabspace', '03'],
+      ['Ready Inventory', 'ready-inventory', '04'],
+      ['Ready Salesman', 'ready-salesman', '05'],
+      ['Customer Portal', 'customer-portal', '06'],
+      ['911Care', '911care', '07'],
     ]);
     for (const card of cards) {
       expect(card.querySelectorAll('.project-number')).toHaveLength(1);
@@ -96,7 +103,6 @@ describe('AK Originals showcase', () => {
     }
   });
   it('formats array indices without a duplicate sequence configuration', async () => {
-    const { formatProjectIndex } = await import('./project-list');
     expect([0, 1, 5, 8, 9, 10].map(formatProjectIndex)).toEqual([
       '01',
       '02',
@@ -111,12 +117,12 @@ describe('AK Originals showcase', () => {
     expect(new Set(catalog.map((p) => p.slug)).size).toBe(catalog.length);
     for (const p of catalog) {
       expect(p.detailRoute).toBe('/projects/' + p.slug);
-      expect(p.coverAsset).toBe(`assets/projects/covers/${p.slug}-cover.webp`);
+      expect(p.coverAsset).toMatch(/^assets\/projects\//);
       expect(p.iconAsset).toBe(`assets/projects/${p.slug}.svg`);
-      expect(p.technologies.length).toBeGreaterThanOrEqual(p.type === 'Portfolio entry' ? 0 : 3);
+      expect(p.technologies.length).toBeGreaterThanOrEqual(3);
       expect(p.technologies.length).toBeLessThanOrEqual(5);
       expect(new Set(p.technologies).size).toBe(p.technologies.length);
-      expect(p.highlights.length).toBeGreaterThanOrEqual(p.type === 'Portfolio entry' ? 0 : 1);
+      expect(p.highlights.length).toBeGreaterThanOrEqual(1);
       expect(p.highlights.length).toBeLessThanOrEqual(2);
       expect(p.sourceNote.length).toBeGreaterThan(20);
       expect(findProject(p.slug)).toBe(p);
@@ -128,12 +134,11 @@ describe('AK Originals showcase', () => {
   });
   it.each(PROJECTS)('renders the supported $name summary and one primary internal link', (p) => {
     const article = render().querySelector(`[data-project-entry="${p.slug}"]`)!;
-    expect(article.querySelector('h2')?.textContent).toBe(p.name);
+    expect(article.querySelector('h3')?.textContent).toBe(p.name);
     expect(article.textContent).toContain(p.shortDescription);
-    expect(article.textContent).toContain(p.type);
-    expect(
-      Array.from(article.querySelectorAll('.project-highlights li'), (e) => e.textContent),
-    ).toEqual([...p.highlights]);
+    expect(article.textContent).toContain(
+      p.ownership === 'professional' ? 'Professional Work' : p.type,
+    );
     expect(Array.from(article.querySelectorAll('.project-tags li'), (e) => e.textContent)).toEqual([
       ...p.technologies,
     ]);
@@ -146,15 +151,15 @@ describe('AK Originals showcase', () => {
   });
   it('uses reserved, lazy artwork with meaningful alts and decorative project icons', () => {
     const el = render();
-    for (const p of PROJECTS) {
+    for (const p of PROJECTS as readonly ProjectSummary[]) {
       const article = el.querySelector(`[data-project-entry="${p.slug}"]`)!;
       const cover = article.querySelector<HTMLImageElement>('.cover-image')!;
-      expect(cover.alt).toBe(p.name + ' project cover artwork');
-      expect(cover.alt).not.toMatch(/screenshot/i);
-      expect(cover.width).toBe(1600);
-      expect(cover.height).toBe(900);
+      expect(cover.alt).toBe(p.visual?.alt ?? p.name + ' project cover artwork');
+
+      expect(cover.width).toBe(p.visual?.width ?? 1600);
+      expect(cover.height).toBe(p.visual?.height ?? 900);
       expect(cover.getAttribute('loading')).toBe(
-        PROJECTS.findIndex((entry) => entry.slug === p.slug) < 2 ? 'eager' : 'lazy',
+        PROJECTS.findIndex((entry) => entry.slug === p.slug) < 3 ? 'eager' : 'lazy',
       );
       expect(article.querySelector<HTMLImageElement>('.project-icon')?.alt).toBe('');
       expect(article.querySelector('.artwork-label')?.getAttribute('aria-hidden')).toBe('true');
@@ -163,9 +168,7 @@ describe('AK Originals showcase', () => {
   });
   it('omits invented URLs and achievement numbers and exposes only genuine route actions', () => {
     const el = render();
-    expect(
-      el.querySelector('a[href^="http"],a[href="#"],[disabled],[aria-disabled],progress,meter'),
-    ).toBeNull();
+    expect(el.querySelector('a[href="#"],[disabled],[aria-disabled],progress,meter')).toBeNull();
     expect(el.textContent).not.toMatch(/\d+\s*%|500\+|20\+|6\+|Resume p\d/);
     expect(el.querySelectorAll('.projects-contact a')).toHaveLength(1);
     expect(el.querySelector('.projects-contact a')?.getAttribute('href')).toBe('/contact');
@@ -175,6 +178,58 @@ describe('AK Originals showcase', () => {
     expect(animate).not.toHaveBeenCalled();
     expect(el.querySelectorAll('article')).toHaveLength(PROJECTS.length);
     expect(el.querySelector('[style*="opacity"]')).toBeNull();
+  });
+  it('groups seven projects once by ownership and keeps the engineering showcase unnumbered', () => {
+    const el = render();
+    expect(Array.from(el.querySelectorAll('#independent-builds h3'), (e) => e.textContent)).toEqual(
+      ['SlingSip', 'NexBuy', 'CollabSpace'],
+    );
+    expect(Array.from(el.querySelectorAll('#professional-work h3'), (e) => e.textContent)).toEqual([
+      'Ready Inventory',
+      'Ready Salesman',
+      'Customer Portal',
+      '911Care',
+    ]);
+    expect(el.querySelectorAll('[data-project-entry]')).toHaveLength(7);
+    expect(el.querySelector('.projects-count')?.textContent?.trim()).toBe('7 featured projects');
+    const showcase = el.querySelector('#behind-this-website')!;
+    expect(showcase.querySelector('.project-number,[data-project-entry]')).toBeNull();
+    expect(showcase.querySelector('a')?.getAttribute('href')).toBe(PORTFOLIO_PROJECT.detailRoute);
+    const source = showcase.querySelector('a[href^="https"]')!;
+    expect(source.getAttribute('href')).toBe('https://github.com/ak-ak-k/aditya-kirtane-portfolio');
+    expect(source.getAttribute('target')).toBe('_blank');
+    expect(source.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(el.querySelectorAll('h1')).toHaveLength(1);
+    expect(el.querySelectorAll('h3')).toHaveLength(7);
+    expect(el.querySelector('a a')).toBeNull();
+    expect(findProject('collabspace')?.status).toBe('prototype');
+    expect(findProject('collabspace')?.technologies).toEqual([
+      'Angular 22',
+      'TypeScript',
+      'Signals',
+      'Angular CDK',
+      'PWA',
+    ]);
+    expect(findProject('ready-salesman')?.ownership).toBe('professional');
+    expect(
+      Array.from(el.querySelectorAll('[data-project-entry]')).every((card) =>
+        card.closest('section')?.querySelector('h2'),
+      ),
+    ).toBe(true);
+  });
+  it('retains CollabSpace at 03 with frontend prototype status and a real screenshot', () => {
+    const card = render().querySelector('[data-project-entry="collabspace"]')!;
+    expect(card.closest('#independent-builds')).not.toBeNull();
+    expect(card.querySelector('.project-number')?.textContent).toBe('03');
+    expect(card.querySelectorAll('.project-number')).toHaveLength(1);
+    expect(card.textContent).toContain('Independent Build');
+    expect(card.textContent).toContain('Frontend Prototype');
+    expect(card.querySelector('.project-media--identity,.project-media--artwork')).toBeNull();
+    expect(card.querySelector('img.cover-image')?.getAttribute('src')).toBe(
+      'assets/projects/screenshots/collabspace/02-dashboard.webp',
+    );
+    expect(card.querySelector('a')?.getAttribute('href')).toBe('/projects/collabspace');
+    expect(card.querySelectorAll('.project-tags li')).toHaveLength(5);
   });
   it('scopes motion to the host and disposes owned work exactly once', () => {
     motion = true;

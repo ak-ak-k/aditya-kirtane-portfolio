@@ -1,5 +1,12 @@
 # AK Originals — project showcase
 
+> CollabSpace now has a verified screenshot-based engineering case study.
+> See [CollabSpace enhancement](collabspace.md); earlier CollabSpace evidence-gap notes below are historical.
+
+> Current implementation: [AK Originals redesign - 22 October 2026](projects-redesign.md).
+> Seven standard projects plus a separate AK Portfolio showcase replace the earlier
+> mixed six-project collection. Earlier implementation and QA results below are historical.
+
 The lazy `/projects` route now renders a curated six-project showcase. The existing
 Home, About, Experience, Skills, navbar, cursor, state, motion helper, and global
 design system are preserved. Project detail behavior is documented separately in

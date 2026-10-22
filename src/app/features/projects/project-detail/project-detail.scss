@@ -43,7 +43,7 @@
   min-inline-size: 0;
 }
 .case-artwork {
-  aspect-ratio: 2;
+  aspect-ratio: 94 / 24;
   overflow: hidden;
   background: var(--color-surface);
   border: 1px solid var(--color-border-accent);
@@ -52,14 +52,15 @@
 // Same inspected left-only artwork crop as the showcase: no repeated portrait.
 .case-artwork img {
   inline-size: 170.213%;
+  margin-block-start: -24.468%;
   max-inline-size: none;
   block-size: auto;
 }
 .case-artwork--identity {
-  aspect-ratio: 47 / 7;
+  aspect-ratio: 94 / 10;
 }
 .case-artwork--identity img {
-  margin-block-start: -20.213%;
+  margin-block-start: -24.468%;
 }
 .case-section {
   display: grid;
@@ -152,4 +153,12 @@
   .case-intro h1:focus-visible::before {
     background: Highlight;
   }
+}
+
+.case-artwork--screenshot {
+  aspect-ratio: auto;
+}
+.case-artwork--screenshot img {
+  inline-size: 100%;
+  margin: 0;
 }

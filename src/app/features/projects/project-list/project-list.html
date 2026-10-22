@@ -1,91 +1,52 @@
-<section class="projects-hero cinematic-bg bg-red-glow" aria-labelledby="projects-title">
+<header class="projects-hero cinematic-bg" aria-labelledby="projects-title">
+  <div class="hero-ridge" aria-hidden="true"></div>
   <div class="section-header" data-projects-heading>
     <p class="eyebrow">Featured builds</p>
     <h1 id="projects-title" class="text-display white-red" tabindex="-1">
       AK <span>Originals</span>
     </h1>
     <p class="text-body-lg text-muted content-measure">
-      Real products. Real problems. Built with modern technologies and a focus on useful, scalable
-      experiences.
+      Independent builds and real-world engineering projects.
     </p>
     <p class="text-meta text-muted projects-count">{{ projects.length }} featured projects</p>
   </div>
+</header>
+<section class="project-collection" aria-labelledby="independent-title" id="independent-builds">
+  <header class="collection-heading" data-project-section-heading>
+    <div class="collection-label">
+      <span class="icon icon--code text-accent" aria-hidden="true"></span>
+      <h2 id="independent-title" class="text-heading-2">Independent Builds</h2>
+    </div>
+    <p class="text-body text-muted">Products and experiments I created independently.</p>
+  </header>
+  <div class="project-grid project-grid--independent">
+    @for (entry of independentProjects; track entry.project.slug) {
+      <app-project-card [project]="entry.project" [index]="entry.index" />
+    }
+  </div>
 </section>
-
+<section class="project-collection" aria-labelledby="professional-title" id="professional-work">
+  <header class="collection-heading" data-project-section-heading>
+    <div class="collection-label">
+      <span class="icon icon--code text-accent" aria-hidden="true"></span>
+      <h2 id="professional-title" class="text-heading-2">Professional Work</h2>
+    </div>
+    <p class="text-body text-muted">
+      Applications developed through professional engineering work.
+    </p>
+  </header>
+  <div class="project-grid project-grid--professional">
+    @for (entry of professionalProjects; track entry.project.slug) {
+      <app-project-card [project]="entry.project" [index]="entry.index" />
+    }
+  </div>
+</section>
 <p class="artwork-note text-body-sm text-muted">
-  Cover visuals are project artwork, not product screenshots.
+  Cover artwork is labelled separately from application screenshots.
 </p>
-
-<div class="project-grid">
-  @for (project of projects; track project.slug; let index = $index) {
-    <article
-      class="project-entry"
-      [class.project-entry--lead]="project.slug === 'slingsip'"
-      [attr.data-project-entry]="project.slug"
-      [attr.aria-labelledby]="project.slug + '-title'"
-    >
-      <div class="card project-card">
-        <div
-          class="project-artwork"
-          [class.project-artwork--identity]="project.type === 'Portfolio entry'"
-        >
-          <span class="project-number" aria-hidden="true">{{ formatProjectIndex(index) }}</span>
-          <div class="project-cover">
-            <img
-              class="cover-image"
-              [ngSrc]="project.coverAsset"
-              width="1600"
-              height="900"
-              [priority]="index < 2"
-              [alt]="project.name + ' project cover artwork'"
-            />
-          </div>
-          <span class="artwork-label text-meta" aria-hidden="true">Cover artwork</span>
-        </div>
-        <div class="project-body">
-          <div class="project-meta">
-            <img class="project-icon" [ngSrc]="project.iconAsset" width="28" height="28" alt="" />
-            <span class="badge">{{ project.type }}</span>
-          </div>
-          <div class="project-heading">
-            <p class="text-meta text-accent">{{ project.category }}</p>
-            <h2 class="text-heading-2" [id]="project.slug + '-title'">{{ project.name }}</h2>
-          </div>
-          <p class="text-body text-muted">{{ project.shortDescription }}</p>
-          @if (project.highlights.length) {
-            <ul class="project-highlights text-body-sm">
-              @for (highlight of project.highlights; track highlight) {
-                <li>{{ highlight }}</li>
-              }
-            </ul>
-          }
-          @if (project.technologies.length) {
-            <ul
-              class="cluster project-tags"
-              role="list"
-              [attr.aria-label]="project.name + ' technologies'"
-            >
-              @for (technology of project.technologies; track technology) {
-                <li class="badge badge--tech">{{ technology }}</li>
-              }
-            </ul>
-          }
-          <a
-            class="project-action text-body-sm"
-            [id]="project.slug + '-action'"
-            [routerLink]="project.detailRoute"
-            data-cursor="project"
-            [attr.aria-labelledby]="project.slug + '-title ' + project.slug + '-action'"
-            >View Project <span class="icon icon--arrow" aria-hidden="true"></span
-          ></a>
-        </div>
-      </div>
-    </article>
-  }
-</div>
-
+<app-portfolio-showcase />
 <section class="projects-contact" aria-labelledby="projects-contact-title">
-  <h2 id="projects-contact-title" class="text-heading-3">Let’s build something useful.</h2>
+  <h2 id="projects-contact-title" class="text-heading-3">Let&rsquo;s build something useful.</h2>
   <a class="btn btn--secondary" routerLink="/contact"
     >Get in touch <span class="icon icon--arrow" aria-hidden="true"></span
   ></a>

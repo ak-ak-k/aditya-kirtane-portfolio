@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { PROJECTS } from '../projects.config';
+import { PROJECTS, ALL_PROJECTS, PORTFOLIO_PROJECT } from '../projects.config';
 import { CASE_STUDIES, getProjectDetail, ProjectCaseStudy } from './project-detail.config';
 import type { ProjectDetail } from './project-detail';
 
@@ -55,22 +55,25 @@ describe('Project case studies', () => {
     TestBed.tick();
     return fixture.nativeElement as HTMLElement;
   }
-  it('maps exactly six uniquely identified case studies to the catalog in its curated order', () => {
+  it('maps seven standard and one special uniquely identified case studies to the catalog in its curated order', () => {
     expect(PROJECTS.map((p) => p.slug)).toEqual([
       'slingsip',
+      'nexbuy',
+      'collabspace',
       'ready-inventory',
       'ready-salesman',
       'customer-portal',
       '911care',
-      'collabspace',
     ]);
-    expect(CASE_STUDIES.map((p) => p.slug)).toEqual(PROJECTS.map((p) => p.slug));
-    expect(new Set(CASE_STUDIES.map((p) => p.slug)).size).toBe(6);
+    expect(new Set(CASE_STUDIES.map((p) => p.slug))).toEqual(
+      new Set(ALL_PROJECTS.map((p) => p.slug)),
+    );
+    expect(new Set(CASE_STUDIES.map((p) => p.slug)).size).toBe(8);
     expect(CASE_STUDIES.every((p) => p.sourceNotes.length > 0)).toBe(true);
     expect(getProjectDetail('unknown')).toBeNull();
     expect(getProjectDetail('__proto__')).toBeNull();
   });
-  it.each(PROJECTS)(
+  it.each(ALL_PROJECTS)(
     'renders the $name case study with one H1 and only its current artwork',
     (project) => {
       const el = render(project.slug);
@@ -80,13 +83,18 @@ describe('Project case studies', () => {
       expect(el.textContent).toContain(view.study.overview);
       expect(el.textContent).toContain(project.type);
       expect(el.querySelector('app-route-placeholder,video,iframe,canvas')).toBeNull();
-      expect(el.querySelectorAll('img')).toHaveLength(1);
+      const gallery = view.study.followUpSections?.find((section) => section.kind === 'gallery');
+      expect(el.querySelectorAll('img')).toHaveLength(
+        1 + (gallery?.kind === 'gallery' ? gallery.images.length : 0),
+      );
       const image = el.querySelector('img')!;
       expect(image.getAttribute('src')).toBe(project.coverAsset);
-      expect(image.alt).toBe(project.name + ' project cover artwork');
-      expect(image.width).toBe(1600);
-      expect(image.height).toBe(900);
-      expect(el.querySelector('figcaption')?.textContent).toBe('Project artwork');
+      expect(image.alt).toBe(project.visual?.alt ?? project.name + ' project cover artwork');
+      expect(image.width).toBe(project.visual?.width ?? 1600);
+      expect(image.height).toBe(project.visual?.height ?? 900);
+      expect(el.querySelector('figcaption')?.textContent?.trim()).toBe(
+        project.visual ? 'Application screenshot' : 'Project artwork',
+      );
       expect(Array.from(el.querySelectorAll('.case-tags li'), (e) => e.textContent)).toEqual([
         ...project.technologies,
       ]);
@@ -107,21 +115,139 @@ describe('Project case studies', () => {
       Array.from(el.querySelectorAll('.case-navigation a'), (a) => a.getAttribute('href')),
     ).toEqual(['/projects/ready-inventory', '/projects/customer-portal']);
   });
-  it('omits unverified technical sections and classifications from identity-only entries', () => {
-    for (const slug of ['slingsip', 'collabspace']) {
-      const view = getProjectDetail(slug)!;
-      expect(view.summary.type).toBe('Portfolio entry');
-      expect(view.summary.technologies).toHaveLength(0);
-      expect(view.study.role).toBeUndefined();
-      expect(view.study.architecture).toBeUndefined();
-      expect(view.study.metric).toBeUndefined();
-      expect(view.study.links).toBeUndefined();
-    }
-    const el = render('slingsip');
-    expect(Array.from(el.querySelectorAll('h2'), (e) => e.textContent)).toEqual(['Overview']);
-    expect(el.textContent).not.toMatch(
-      /Electron|scheduler|IPC|Windows|Prototype|production|hydration/i,
+  it('publishes the verified frontend prototype with a complete semantic case study', () => {
+    const view = getProjectDetail('collabspace')!;
+    const el = render('collabspace');
+    expect(view.summary.ownership).toBe('personal');
+    expect(view.summary.status).toBe('prototype');
+    expect(view.summary.statusLabel).toBe('Frontend Prototype');
+    expect(el.querySelector('h1')?.textContent).toBe('CollabSpace');
+    expect(el.textContent).toContain('Angular Collaboration Workspace Prototype');
+    expect(Array.from(el.querySelectorAll('h2'), (e) => e.textContent?.trim())).toEqual([
+      'Overview',
+      'The Problem',
+      'The Approach',
+      'Independent Engineering Project',
+      'Core Features',
+      'Engineering With Modern Angular',
+      'Application Architecture',
+      'UI Screenshot Gallery',
+      'PWA and Offline Experience',
+      'Testing and Quality',
+      'Current Limitations',
+      'Future Roadmap',
+    ]);
+    expect(el.querySelectorAll('.case-point')).toHaveLength(6);
+    expect(el.querySelectorAll('[data-case-section]')).toHaveLength(13);
+    expect(el.textContent).toContain('zoneless change detection');
+    expect(el.textContent).toContain('Signal Forms');
+    expect(view.study.metric).toBeUndefined();
+    expect(view.study.outcome).toBeUndefined();
+  });
+  it('separates the implemented browser architecture from a planned backend', () => {
+    const el = render('collabspace');
+    expect(Array.from(el.querySelectorAll('.flow-list h3'), (e) => e.textContent)).toEqual([
+      'Angular Router',
+      'Feature Components',
+      'State Services',
+      'Mock Data Services',
+      'Built-in Demo Data',
+    ]);
+    expect(el.querySelector('.flow-note')?.textContent).toContain('Simulated RxJS events');
+    expect(el.querySelector('.flow-note--planned')?.textContent).toContain(
+      'Future Backend Integration',
     );
+    expect(el.querySelector('.flow-note--planned')?.textContent).toContain(
+      'Planned / Not Yet Implemented',
+    );
+    expect(el.querySelector('[data-study-section="collabspace-approach"]')?.textContent).toContain(
+      'browser-side',
+    );
+  });
+  it('renders six local lazy gallery images with dimensions, captions and full-size links', () => {
+    const el = render('collabspace');
+    const figures = Array.from(el.querySelectorAll('.gallery-grid figure'));
+    expect(figures).toHaveLength(6);
+    expect(figures.map((f) => f.querySelector('img')?.getAttribute('src'))).toEqual([
+      'assets/projects/screenshots/collabspace/02-dashboard.webp',
+      'assets/projects/screenshots/collabspace/03-messages-thread.webp',
+      'assets/projects/screenshots/collabspace/05-tasks-board.webp',
+      'assets/projects/screenshots/collabspace/06-task-details.webp',
+      'assets/projects/screenshots/collabspace/10-roles-permissions.webp',
+      'assets/projects/screenshots/collabspace/14-mobile-messages.webp',
+    ]);
+    for (const f of figures) {
+      const img = f.querySelector('img')!,
+        link = f.querySelector('a')!;
+      expect(img.alt.length).toBeGreaterThan(20);
+      expect(img.getAttribute('loading')).toBe('lazy');
+      expect(img.width).toBeGreaterThan(0);
+      expect(img.height).toBeGreaterThan(0);
+      expect(f.querySelector('figcaption')?.textContent?.length).toBeGreaterThan(30);
+      expect(link.getAttribute('href')).toBe(img.getAttribute('src'));
+      expect(link.getAttribute('target')).toBe('_blank');
+      expect(link.getAttribute('rel')).toBe('noopener noreferrer');
+    }
+    expect(el.querySelector('.case-artwork--screenshot')).not.toBeNull();
+    expect(el.querySelector('.case-artwork--identity')).toBeNull();
+    expect(el.querySelector('a a,button,iframe,video,canvas')).toBeNull();
+  });
+  it('qualifies simulations, offline limits and the dated testing snapshot', () => {
+    const el = render('collabspace');
+    const pwa = el.querySelector('[data-study-section="collabspace-pwa"]')!.textContent!;
+    expect(pwa).toContain('in-memory');
+    expect(pwa).toContain('Reloading can discard');
+    expect(pwa).toContain('not been verified on a physical device');
+    const testing = el.querySelector('[data-study-section="collabspace-testing"]')!.textContent!;
+    expect(testing).toContain('22 October 2026');
+    expect(testing).toContain('600 unit tests across 166 spec files');
+    expect(testing).toContain('There is no E2E suite or coverage reporting');
+    const limits = el.querySelector('[data-study-section="collabspace-limitations"]')!.textContent!;
+    expect(limits).toContain(
+      'No backend API integration, real authentication, server-side permissions or real-time messaging server',
+    );
+    expect(limits).toContain('not durably persisted');
+    expect(limits).toContain('static in-browser index');
+    expect(el.querySelector('[data-study-section="collabspace-roadmap"]')?.textContent).toContain(
+      'Planned / Not Yet Implemented',
+    );
+    const messaging = Array.from(el.querySelectorAll('.case-point')).find((card) =>
+      card.textContent?.includes('Messaging and Threads'),
+    )!;
+    expect(messaging.textContent).toContain('simulated with timers');
+  });
+  it('keeps CollabSpace actions and neighbors correct with static reduced-motion content', () => {
+    const el = render('collabspace');
+    expect(animate).not.toHaveBeenCalled();
+    expect(el.querySelector('[style*="opacity"]')).toBeNull();
+    expect(Array.from(el.querySelectorAll('.case-intro a'), (a) => a.getAttribute('href'))).toEqual(
+      [
+        'https://collab-space-frontend-tau.vercel.app/login',
+        'https://github.com/ak-ak-k/CollabSpace-Frontend',
+      ],
+    );
+    for (const a of el.querySelectorAll('.case-intro a')) {
+      expect(a.getAttribute('target')).toBe('_blank');
+      expect(a.getAttribute('rel')).toBe('noopener noreferrer');
+    }
+    expect(
+      Array.from(el.querySelectorAll('.case-navigation a'), (a) => a.getAttribute('href')),
+    ).toEqual(['/projects/nexbuy', '/projects/ready-inventory']);
+  });
+  it('keeps the CollabSpace gallery off unrelated project routes', () => {
+    const el = render('nexbuy');
+    expect(el.querySelector('.gallery-grid,app-case-study-section')).toBeNull();
+    expect(el.querySelector('img[src*="screenshots/collabspace"]')).toBeNull();
+  });
+  it('provides the special architecture case study without standard previous/next navigation', () => {
+    const view = getProjectDetail('ak-portfolio')!;
+    expect(view.summary).toBe(PORTFOLIO_PROJECT);
+    expect(view.previous).toBeNull();
+    expect(view.next).toBeNull();
+    const el = render('ak-portfolio');
+    expect(el.querySelector('.case-navigation,.project-number')).toBeNull();
+    expect(el.querySelector('a')?.getAttribute('href')).toBe('/projects');
+    expect(el.textContent).toContain('Scoped motion');
   });
   it('keeps metrics attributed only to Customer Portal and avoids unsupported challenge stories', () => {
     const studies: readonly ProjectCaseStudy[] = CASE_STUDIES;
@@ -134,7 +260,7 @@ describe('Project case studies', () => {
   });
   it('renders conditional professional sections with semantic H2/H3 structure and normal cards', () => {
     const el = render('ready-salesman');
-    expect(Array.from(el.querySelectorAll('h2'), (e) => e.textContent)).toEqual([
+    expect(Array.from(el.querySelectorAll('h2'), (e) => e.textContent?.trim())).toEqual([
       'Overview',
       'My role',
       'Key features',
@@ -147,13 +273,13 @@ describe('Project case studies', () => {
     expect(el.querySelector('.architecture-map')?.getAttribute('role')).toBe('list');
     expect(el.querySelector('[aria-live],.case-point[tabindex]')).toBeNull();
   });
-  it('uses only the three source-verified HTTPS destinations with safe external attributes', () => {
+  it('uses only verified HTTPS destinations with safe external attributes', () => {
     const studies: readonly ProjectCaseStudy[] = CASE_STUDIES;
-    expect(studies.flatMap((p) => p.links?.map((l) => l.url) ?? [])).toEqual([
-      'https://readybusiness.in/',
-      'https://customerportal.readybusiness.in',
-      'https://play.google.com/store/apps/details?id=com.fch.care911&hl=en_IN',
-    ]);
+    const links = studies.flatMap((p) => p.links?.map((l) => l.url) ?? []);
+    expect(links).toContain('https://github.com/ak-ak-k/ShoppingFrontend');
+    expect(links).toContain('https://shoppingfrontend-topaz.vercel.app/');
+    expect(links).toContain('https://github.com/ak-ak-k/aditya-kirtane-portfolio');
+    expect(links.every((url) => url.startsWith('https://'))).toBe(true);
     const el = render('911care');
     const link = el.querySelector('a[href^="https"]')!;
     expect(link.getAttribute('target')).toBe('_blank');

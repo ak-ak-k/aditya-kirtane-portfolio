@@ -1,12 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
 import { afterRenderEffect, Component, computed, ElementRef, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { CaseStudySection } from './case-study-section';
 import { getProjectDetail } from './project-detail.config';
 import { PROJECT_DETAIL_EFFECTS } from './project-detail-effects';
 
 @Component({
   selector: 'app-project-detail',
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink, CaseStudySection],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.scss',
 })

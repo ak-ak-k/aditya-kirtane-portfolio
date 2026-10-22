@@ -1,0 +1,63 @@
+<section
+  id="behind-this-website"
+  class="engineering-showcase"
+  aria-labelledby="engineering-title"
+  data-project-showcase
+>
+  <div class="engineering-copy">
+    <p class="eyebrow" data-showcase-reveal>Behind this website</p>
+    <h2 id="engineering-title" class="text-heading-1" data-showcase-reveal>
+      The Engineering Behind <span class="text-accent">the Experience</span>
+    </h2>
+    <p class="text-body text-muted" data-showcase-reveal>
+      This portfolio is a custom-built Angular application, designed to showcase modern frontend
+      architecture, performance, accessibility and creative engineering.
+    </p>
+    <ul
+      class="cluster engineering-tags"
+      role="list"
+      aria-label="Portfolio technologies"
+      data-showcase-reveal
+    >
+      @for (tech of project.technologies; track tech) {
+        <li class="badge badge--tech">{{ tech }}</li>
+      }
+    </ul>
+    <ul class="engineering-highlights text-body-sm text-muted" data-showcase-reveal>
+      @for (highlight of project.highlights; track highlight) {
+        <li>{{ highlight }}</li>
+      }
+    </ul>
+    <div class="cluster" data-showcase-reveal>
+      <a class="btn btn--primary" [routerLink]="project.detailRoute" data-cursor="project"
+        >Explore Architecture <span class="icon icon--arrow" aria-hidden="true"></span
+      ></a>
+      <a
+        class="btn btn--secondary"
+        href="https://github.com/ak-ak-k/aditya-kirtane-portfolio"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="open"
+        >View Source <span class="icon icon--github" aria-hidden="true"></span
+        ><span class="sr-only"> (opens in a new tab)</span></a
+      >
+    </div>
+  </div>
+  <figure class="portfolio-presentation" data-showcase-reveal>
+    <div class="desktop-frame">
+      <div class="desktop-toolbar" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <p>AK Portfolio / Angular 22</p>
+      </div>
+      <img
+        [ngSrc]="project.coverAsset"
+        [width]="project.visual.width"
+        [height]="project.visual.height"
+        [alt]="project.visual.alt"
+      />
+    </div>
+    <figcaption class="text-meta text-muted">
+      AK Portfolio &middot; Current application screenshot
+    </figcaption>
+  </figure>
+</section>

@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { appConfig } from './app.config';
 import { UiState } from './core/services/ui-state';
-import { ProjectDetail } from './features/projects/project-detail/project-detail';
-import { PROJECTS } from './features/projects/projects.config';
+import { PROJECTS, ALL_PROJECTS } from './features/projects/projects.config';
+
+let ProjectDetail: typeof import('./features/projects/project-detail/project-detail').ProjectDetail;
 
 describe('Portfolio routing', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     vi.stubGlobal(
       'matchMedia',
       vi.fn((media: string) => ({
@@ -20,6 +21,8 @@ describe('Portfolio routing', () => {
         removeEventListener: vi.fn(),
       })),
     );
+    ProjectDetail = (await import('./features/projects/project-detail/project-detail'))
+      .ProjectDetail;
   });
   afterAll(() => vi.unstubAllGlobals());
   beforeEach(() => {
@@ -33,12 +36,12 @@ describe('Portfolio routing', () => {
     ['/experience', 'Top moments', 'experience', 'Experience | Aditya Kirtane'],
     ['/skills', 'My skill universe', 'skills', 'Skills | Aditya Kirtane'],
     ['/projects', 'AK Originals', 'projects', 'Projects | Aditya Kirtane'],
-    [
-      '/projects/ready-inventory',
-      'Ready Inventory',
+    ...ALL_PROJECTS.map((project) => [
+      project.detailRoute,
+      project.name,
       'projects',
-      'Ready Inventory | Aditya Kirtane',
-    ],
+      `${project.name} | Aditya Kirtane`,
+    ]),
     ['/contact', 'Let’s build something great', 'contact', 'Contact | Aditya Kirtane'],
   ])('loads %s and synchronizes route state', async (url, heading, section, title) => {
     const state = TestBed.inject(UiState);

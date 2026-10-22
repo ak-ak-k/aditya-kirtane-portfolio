@@ -21,7 +21,7 @@ describe('Case-study animation ownership', () => {
   it('reverts grouped sections while preserving unrelated triggers and preventing late writes', () => {
     const scope = document.createElement('div');
     scope.innerHTML = '<header data-case-heading>Case study</header>';
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 13; i++) {
       const section = document.createElement('section');
       section.setAttribute('data-case-section', '');
       section.textContent = 'Verified content';
@@ -35,7 +35,7 @@ describe('Case-study animation ownership', () => {
     const context = runtime.gsap.context(() => animate(scope), scope);
     try {
       const owned = runtime.ScrollTrigger.getAll().filter((t) => !before.has(t));
-      expect(owned).toHaveLength(7);
+      expect(owned).toHaveLength(13);
       expect(owned.every((t) => t.vars.once && !t.vars.pin && !t.vars.scrub)).toBe(true);
       context.revert();
       expect(runtime.ScrollTrigger.getAll().filter((t) => !before.has(t))).toHaveLength(0);

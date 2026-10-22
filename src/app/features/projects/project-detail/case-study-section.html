@@ -1,0 +1,72 @@
+@let content = section();
+<section
+  class="study-section"
+  [attr.aria-labelledby]="content.id + '-title'"
+  [attr.data-study-section]="content.id"
+>
+  <h2 class="text-heading-2" [id]="content.id + '-title'">{{ content.title }}</h2>
+  @switch (content.kind) {
+    @case ('text') {
+      @for (paragraph of content.paragraphs; track paragraph) {
+        <p class="text-body-lg text-muted content-measure">{{ paragraph }}</p>
+      }
+      @if (content.items?.length) {
+        <ul class="study-items text-body text-muted content-measure">
+          @for (item of content.items; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      }
+    }
+    @case ('flow') {
+      <ol class="flow-list" aria-label="Implemented browser-side data flow">
+        @for (node of content.nodes; track node.title) {
+          <li class="card">
+            <h3 class="text-heading-4">{{ node.title }}</h3>
+            <p class="text-body-sm text-muted">{{ node.description }}</p>
+          </li>
+        }
+      </ol>
+      <div class="flow-note">
+        <h3 class="text-heading-4">{{ content.events.title }}</h3>
+        <p class="text-body text-muted">{{ content.events.description }}</p>
+      </div>
+      <div class="flow-note flow-note--planned">
+        <h3 class="text-heading-4">{{ content.planned.title }}</h3>
+        <p class="text-body text-muted">{{ content.planned.description }}</p>
+      </div>
+    }
+    @case ('gallery') {
+      <p class="text-body text-muted">
+        Select a screenshot to open the full-size image in a new tab. All screens show fictional
+        demo data.
+      </p>
+      <div class="gallery-grid">
+        @for (shot of content.images; track shot.src) {
+          <figure [class.gallery-portrait]="shot.height > shot.width">
+            <a
+              [href]="shot.src"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="
+                'Open full-size ' + shot.title + ' screenshot (opens in a new tab)'
+              "
+            >
+              <img
+                [ngSrc]="shot.src"
+                [width]="shot.width"
+                [height]="shot.height"
+                [alt]="shot.alt"
+                loading="lazy"
+              />
+            </a>
+            <figcaption>
+              <p class="text-body">{{ shot.title }}</p>
+              <p class="text-body-sm text-muted">{{ shot.caption }}</p>
+            </figcaption>
+          </figure>
+        }
+      </div>
+    }
+  }
+</section>

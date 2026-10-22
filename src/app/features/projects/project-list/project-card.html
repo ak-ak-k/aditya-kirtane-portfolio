@@ -1,0 +1,61 @@
+@let item = project();
+<article
+  class="project-entry card"
+  [class.project-entry--personal]="item.ownership === 'personal'"
+  [attr.data-project-entry]="item.slug"
+  [attr.aria-labelledby]="item.slug + '-title'"
+>
+  <div class="project-artwork">
+    <span class="project-number" aria-hidden="true">{{ formatProjectIndex(index()) }}</span>
+    <span class="artwork-label text-meta" aria-hidden="true">{{
+      item.visual ? 'Application screenshot' : 'Cover artwork'
+    }}</span>
+    <div
+      class="project-media"
+      [class.project-media--artwork]="!item.visual"
+      [class.project-media--identity]="item.identityArtwork"
+    >
+      <div class="image-window">
+        <img
+          class="cover-image"
+          [ngSrc]="item.coverAsset"
+          [width]="item.visual?.width ?? 1600"
+          [height]="item.visual?.height ?? 900"
+          [priority]="index() < 3"
+          [alt]="item.visual?.alt ?? item.name + ' project cover artwork'"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <div class="project-meta">
+      <img class="project-icon" [ngSrc]="item.iconAsset" width="24" height="24" alt="" />
+      <span class="badge">{{
+        item.ownership === 'professional' ? 'Professional Work' : item.type
+      }}</span>
+      @if (item.statusLabel) {
+        <span class="badge">{{ item.statusLabel }}</span>
+      }
+    </div>
+    <div class="project-heading">
+      <h3 class="text-heading-3" [id]="item.slug + '-title'">{{ item.name }}</h3>
+      <p class="project-category text-body-sm text-accent">{{ item.category }}</p>
+    </div>
+    <p class="text-body-sm text-muted">{{ item.shortDescription }}</p>
+    @if (item.technologies.length) {
+      <ul class="cluster project-tags" role="list" [attr.aria-label]="item.name + ' technologies'">
+        @for (tech of item.technologies; track tech) {
+          <li class="badge badge--tech">{{ tech }}</li>
+        }
+      </ul>
+    }
+    <a
+      class="project-action text-body-sm"
+      [id]="item.slug + '-action'"
+      [routerLink]="item.detailRoute"
+      data-cursor="project"
+      [attr.aria-labelledby]="item.slug + '-title ' + item.slug + '-action'"
+      >View Case Study <span class="icon icon--arrow" aria-hidden="true"></span
+    ></a>
+  </div>
+</article>
